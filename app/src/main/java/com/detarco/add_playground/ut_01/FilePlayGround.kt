@@ -3,6 +3,10 @@ package com.detarco.add_playground.ut_01
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import java.io.File
+import kotlin.io.path.Path
+import kotlin.io.path.createDirectory
+import kotlin.io.path.deleteIfExists
+import kotlin.io.path.exists
 
 //
 
@@ -18,6 +22,8 @@ class FilePlayGround(private val activity:AppCompatActivity) {
         //appendTextWithNewLine()
         //readLineByLine()
         //deleteFile()
+        //createFolder()
+        //createFileInFolder()
     }
 
     /**
@@ -102,14 +108,14 @@ class FilePlayGround(private val activity:AppCompatActivity) {
 
     }
 
-    fun readFromFile() : MutableList<String>{
+    fun readFromFile() : MutableList<String> {
 
         val colors = mutableListOf<String>()
 
         val file = File(activity.filesDir, "colors.txt")
 
 
-        if (file.exists()){
+        if (file.exists()) {
             return colors
         }
 
@@ -118,9 +124,26 @@ class FilePlayGround(private val activity:AppCompatActivity) {
         }
 
         return colors
-
+    }
 
         //fun readFromFile() =
         //val file = File(activity.filesDir, "colors.txt").readLines().toMutableList()
+
+        fun createFolder(){
+            //Opción 1
+            val file = File(activity.filesDir, "/docs")
+            file.mkdir()
+
+            //Opción 2, hay otra pero para  no preocuparnos de los cambios de versiones nos quedamos con esa
+
+        }
+
+        fun createFileInFolder(){
+        val file = File(activity.filesDir.canonicalFile, "/docs/aad.txt")
+            file.writeText("Hola!!")
+            //file.createNewFile
     }
+
+
+
 }
