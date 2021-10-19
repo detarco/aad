@@ -74,14 +74,24 @@ class SharPrefDataSource<T : Model>(private val context: AppCompatActivity) : Da
     }
 
     override fun fetch(id: Int): T? {
-        sharedPref.all.forEach(){
+        //sharedPref.all.forEach(){}
 
+        val allModels = fetchAll()
+        allModels?.forEach{
+            if (it.getId() == id ){
+                return it
+            }
         }
-
+        return null
     }
 
     override fun fetchAll(): List<T>? {
+        val allModels: MutableList<T> = mutableListOf()
 
+        sharedPref.all?.values?.forEach{
+            allModels.add(gson.fromJson(it as String, type))
+        }
+        return null
     }
 
 }
