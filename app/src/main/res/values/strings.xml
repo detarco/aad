@@ -8,4 +8,8 @@
     <string name="label_button_show_content">Mostrar contenido</string>
     <string name="preference_file_key">ut_02_file_key</string>
     <string name="encrypted_preference_file_key">ut_02_encripted_file_key</string>
+
+    <string name="action_file">Repositorio fichero</string>
+    <string name="action_mem">Repositorio memoria</string>
+    <string name="action_sharpref">Repositorio SharedPreferences</string>
 </resources>

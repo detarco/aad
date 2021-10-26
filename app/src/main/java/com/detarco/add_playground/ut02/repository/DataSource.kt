@@ -1,8 +1,7 @@
-package com.detarco.add_playground.ut02_sharedpreferences.repository
+package com.detarco.add_playground.ut02.repository
 
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
-import com.detarco.add_playground.ut02_sharedpreferences.LocalDataSource
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 

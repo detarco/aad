@@ -1,6 +1,6 @@
-package com.detarco.add_playground.ut02_sharedpreferences
+package com.detarco.add_playground.ut02
 
-import com.detarco.add_playground.ut02_sharedpreferences.repository.UserModel
+import com.detarco.add_playground.ut02.repository.UserModel
 
 class GenericClass<T> {
 

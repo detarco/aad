@@ -1,4 +1,4 @@
-package com.detarco.add_playground.ut02_sharedpreferences.repository
+package com.detarco.add_playground.ut02.repository
 
 interface Model {
     fun getId(): Int

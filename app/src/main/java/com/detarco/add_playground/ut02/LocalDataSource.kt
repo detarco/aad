@@ -1,4 +1,4 @@
-package com.detarco.add_playground.ut02_sharedpreferences
+package com.detarco.add_playground.ut02
 
 import android.annotation.SuppressLint
 import android.content.Context
