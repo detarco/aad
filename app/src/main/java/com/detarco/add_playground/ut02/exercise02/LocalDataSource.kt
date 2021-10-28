@@ -1,10 +1,12 @@
 package com.detarco.add_playground.ut02.exercise02
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
+import com.detarco.add_playground.R
 import com.detarco.add_playground.commons.Serializer
 import java.io.File
 
-interface DataSource<T : LocalModel> {
+interface LocalStorage<T : LocalModel> {
     fun save(model: T)
     fun fetch(id: String): T?
 }
@@ -12,7 +14,7 @@ interface DataSource<T : LocalModel> {
 class FileDataSource <T: LocalModel>(
     private val activity: AppCompatActivity,
     private val serializer: Serializer<T>
-    ) : DataSource<T> {
+    ) : LocalStorage<T> {
 
     private val file = File(activity.filesDir, "aad_ex02.txt")
 
@@ -26,7 +28,7 @@ class FileDataSource <T: LocalModel>(
     }
 }
 
-class MemDataSource <T:LocalModel> : DataSource<T> {
+class MemLocalStorage <T:LocalModel> : LocalStorage<T> {
 
     //private val DataStorage2 : MutableList<T> = mutableListOf()
     private val dataStorage = mutableListOf<T>()
@@ -50,17 +52,40 @@ class MemDataSource <T:LocalModel> : DataSource<T> {
          *    }
          */
 
-
-
 }
 
-class SharPrefDataSource<T: LocalModel>(private val activity: AppCompatActivity) : DataSource<T>{
+class SharPrefDataSource<T: LocalModel>(
+    private val activity: AppCompatActivity,
+    private val serializer: Serializer<T>
+    ) :
+        /**Demo(),*/
+        LocalStorage<T>{
+
+    private val sharedPref = activity.getSharedPreferences(
+        activity.getString(R.string.preference_file_exercise02),
+        Context.MODE_PRIVATE
+    )
+
     override fun save(model: T) {
-        TODO("Not yet implemented")
+        val edit = sharedPref.edit()
+        edit?.putString(model.getId().toString(), serializer.toJson(model))
+        edit?.apply()
     }
 
-    override fun fetch(id: String): T {
-        TODO("Not yet implemented")
+    override fun fetch(id: String): T? {
+        val jsonModel = sharedPref.getString(id, "{}")
+        return if (jsonModel != null){
+            serializer.fromJson(jsonModel)
+        }else{
+            null
+        }
+
     }
 
 }
+
+/**
+ *   open class Demo(){
+ *
+ *   }
+ */
