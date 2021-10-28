@@ -39,8 +39,7 @@ class Exercise02Activity : AppCompatActivity() {
     }
 
     private fun runRepository(idAction: Int) {
-        val dataSource = factory.create(idAction)
-        val repository = TapaRepository(dataSource)
+        val repository = TapaRepository(factory.create(idAction))
 
         //save action
         repository.save(TapaLocalModel(1, "Tapa1", "Description about tapa1"))
