@@ -144,6 +144,15 @@ class FilePlayGround(private val activity:AppCompatActivity) {
             //file.createNewFile
     }
 
+    fun listFilesInFolder(){
+        val file = File(activity.filesDir, "/documents")
+        val files = file.list()
+        files.forEach {
+            Log.d("@dev", "File: $it")
+        }
+
+    }
+
 
 
 }
