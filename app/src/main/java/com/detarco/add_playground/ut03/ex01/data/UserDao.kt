@@ -1,4 +1,4 @@
-package com.detarco.add_playground.ut03.data
+package com.detarco.add_playground.ut03.ex01.data
 
 import androidx.room.*
 

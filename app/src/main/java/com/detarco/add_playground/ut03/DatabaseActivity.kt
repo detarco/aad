@@ -6,8 +6,8 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.room.Room
 import com.detarco.add_playground.R
-import com.detarco.add_playground.ut03.data.AppDataBase
-import com.detarco.add_playground.ut03.data.UserEntity
+import com.detarco.add_playground.ut03.ex01.data.AppDataBase
+import com.detarco.add_playground.ut03.ex01.data.UserEntity
 
 class DatabaseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
