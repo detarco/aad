@@ -1,4 +1,4 @@
-package com.detarco.add_playground.ut03
+package com.detarco.add_playground.ut02
 
 import android.content.ContentValues.TAG
 import android.os.Bundle

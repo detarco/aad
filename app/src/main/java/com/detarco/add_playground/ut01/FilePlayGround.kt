@@ -1,12 +1,8 @@
-package com.detarco.add_playground.ut_01
+package com.detarco.add_playground.ut01
 
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import java.io.File
-import kotlin.io.path.Path
-import kotlin.io.path.createDirectory
-import kotlin.io.path.deleteIfExists
-import kotlin.io.path.exists
 
 //
 
