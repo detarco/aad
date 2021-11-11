@@ -6,6 +6,7 @@ import android.util.Log
 import com.detarco.add_playground.R
 import com.detarco.add_playground.ut03.ex02.data.PersonDataRepository
 import com.detarco.add_playground.ut03.ex02.data.PersonLocalSource
+import com.detarco.add_playground.ut03.ex02.domain.CarModel
 import com.detarco.add_playground.ut03.ex02.domain.PersonModel
 import com.detarco.add_playground.ut03.ex02.domain.PersonRepository
 import com.detarco.add_playground.ut03.ex02.domain.PetModel
@@ -31,11 +32,14 @@ class Ut03Ex02Activity : AppCompatActivity() {
     private fun executeQuery(){
 
         Thread{
-            repository.savePerson(PersonModel(1, "Name01",1,"1",PetModel(1,"Tián", 2)))
+            repository.savePerson(PersonModel(1, "Name01",1,"1", PetModel(1,"Tián", 2), mutableListOf() ))
             val people = repository.fetchAll()
             Log.d(TAG,"$people")
+
+            //val peopleAndPets = repository.
         }.start()
 
     }
+
 
 }

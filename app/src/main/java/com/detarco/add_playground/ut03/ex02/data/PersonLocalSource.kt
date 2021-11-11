@@ -8,32 +8,38 @@ class PersonLocalSource(applicationContext: Context) {
 
     private val db = Ut03Ex02DataBase.getInstance(applicationContext)
 
-    fun findAll(): List<PersonModel>{
-        val people = db.personDao().findAll()
-        return people.map { element -> element.toModel() }
+    init {
+        Thread {
+            db.clearAllTables()
+        }.start()
+        Thread.sleep(1000)
     }
 
-    fun save(personalModel: PersonModel){
+    fun findAll(): List<PersonModel> {
 
+        val people = db.personDao().getPersonAndPets()
+
+        return people?.map { element -> element.toModel() } ?: mutableListOf()
+
+    }
+
+    fun save(personModel: PersonModel) {
         db.personDao().insertPersonAndPet(
             PersonEntity(
-                personalModel.id,
-                personalModel.name,
-                personalModel.age
+                personModel.id,
+                personModel.name,
+                personModel.age
             ), PetEntity(
-                personalModel.petModel.id,
-                personalModel.petModel.name,
-                personalModel.petModel.age,
-                personalModel.id
+                personModel.petModel.id,
+                personModel.petModel.name,
+                personModel.petModel.age,
+                personModel.id
             )
         )
+    }
 
-        db.personDao().insert(
-            PersonEntity(
-            personalModel.id,
-            personalModel.name,
-            personalModel.age
-            )
-        )
+    fun saveWithoutID(personModel: PersonModel) {
+        //val personId
+
     }
 }
