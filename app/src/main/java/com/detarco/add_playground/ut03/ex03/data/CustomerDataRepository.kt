@@ -8,7 +8,7 @@ import com.detarco.add_playground.ut03.ex03.domain.CustomerRepository
 class CustomerDataRepository (private val customerLocalSource: CustomerLocalSource) : CustomerRepository {
 
     override fun saveCustomer(customerModel: CustomerModel) {
-        customerLocalSource.save(customerModel)
+        customerLocalSource.save2way(customerModel)
     }
 
     override fun fetchAll(): List<CustomerModel> = customerLocalSource.findAll()

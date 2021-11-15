@@ -25,3 +25,18 @@ data class ClothesModel(
     val id: Int = 0,
     val type: String
 )
+
+interface LocalModel {
+    fun getId(): String
+}
+
+data class CustomerLocalModel(val name: String, val age: Int):
+    LocalModel {
+        override fun getId(): String = ID
+
+    companion object {
+        val ID: String = CustomerLocalModel::class.java.simpleName
+        val name: String = CustomerLocalModel::class.java.simpleName
+        val age: String = CustomerLocalModel::class.java.simpleName
+    }
+}

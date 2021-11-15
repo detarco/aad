@@ -6,13 +6,16 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
 import com.detarco.add_playground.R
+import com.detarco.add_playground.commons.GsonSerializer
 import com.detarco.add_playground.ut03.ex03.data.CustomerDataRepository
 import com.detarco.add_playground.ut03.ex03.data.local.CustomerLocalSource
-import com.detarco.add_playground.ut03.ex03.domain.ClothesModel
-import com.detarco.add_playground.ut03.ex03.domain.CustomerModel
-import com.detarco.add_playground.ut03.ex03.domain.CustomerRepository
+import com.detarco.add_playground.ut03.ex03.data.local.SharPrefLocalStorage
+import com.detarco.add_playground.ut03.ex03.domain.*
 
 class Ut03Ex03Activity : AppCompatActivity() {
+
+    private val TAG = Ut03Ex03Activity::class.java.simpleName
+    private lateinit var customerLocalRepository: CustomerLocalRepository
 
     private val repository : CustomerRepository by lazy {
         CustomerDataRepository(CustomerLocalSource(applicationContext))
@@ -24,7 +27,10 @@ class Ut03Ex03Activity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ut03_ex03)
 
+        customerLocalRepository = CustomerLocalRepository(SharPrefLocalStorage(this, GsonSerializer()))
+
         executeQuery()
+        localOrRemote()
 
     }
 
@@ -52,6 +58,23 @@ class Ut03Ex03Activity : AppCompatActivity() {
             Log.d(TAG,"$customers")
 
         }.start()
+
+    }
+
+    private fun localOrRemote(){
+        val customerLocalModel = customerLocalRepository.fetch()
+
+        if (customerLocalModel == null) {
+            customerLocalRepository.save(CustomerLocalModel("Fernando Local",23))
+            Log.d(TAG, "Se ha creado un fichero con el modelo")
+        }else{
+            /*
+            No sé por qué inicializa un modelo con nombre nulo y edad vacía, necesita mejora
+             */
+            customerLocalRepository.save(CustomerLocalModel("Fernando Local", 23))
+            Log.d(TAG, "Se ha modificado el fichero con el modelo")
+        }
+
 
     }
 }
