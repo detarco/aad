@@ -60,6 +60,11 @@ class Ut03Ex03Activity : AppCompatActivity() {
                     mutableListOf(ClothesModel(2, "Lana"))
                 )
             )
+            repository.saveCustomer(
+                CustomerModel(2,"Ser", 22,
+                mutableListOf(ClothesModel(3,"Tela")))
+            )
+
             val customers = repository.fetchAll()
             Log.d(TAG,"$customers")
 
@@ -99,7 +104,7 @@ class Ut03Ex03Activity : AppCompatActivity() {
                 val customers = repository.fetchAll()
                 customers.forEach{
                     customerLocalRepository.save(CustomerLocalModel(it.name, it.age))
-                    Log.d(TAG, "El documento debería guardar $it");
+                    Log.d(TAG, "El documento sólo guarda el primero: $it");
                 }
 
             }.start()
