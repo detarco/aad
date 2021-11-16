@@ -1,10 +1,15 @@
 package com.detarco.add_playground.ut03.ex03.presentation
 
 import android.content.ContentValues.TAG
+import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.detarco.add_playground.R
 import com.detarco.add_playground.commons.GsonSerializer
 import com.detarco.add_playground.ut03.ex03.data.CustomerDataRepository
@@ -21,6 +26,9 @@ class Ut03Ex03Activity : AppCompatActivity() {
 
     private val TAG = Ut03Ex03Activity::class.java.simpleName
     private lateinit var customerLocalRepository: CustomerLocalRepository
+    private var recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
+
+    private lateinit var linearLayoutManager: LinearLayoutManager
 
     private val repository : CustomerRepository by lazy {
         CustomerDataRepository(CustomerLocalSource(applicationContext))
@@ -32,17 +40,37 @@ class Ut03Ex03Activity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ut03_ex03)
 
+        linearLayoutManager = LinearLayoutManager(this)
+        recyclerView.layoutManager = linearLayoutManager
+
         customerLocalRepository = CustomerLocalRepository(SharPrefLocalStorage(this, GsonSerializer()))
 
         executeQuery()
         //saveLocal()
         localOrRemote()
 
+        //getAllAlerts()
+        //getAlertById()
+
     }
 
     private fun getAllAlerts(){
         val alerts = viewModel.getAlerts()
         //..Visualizar la información en un LOG.
+        alerts.forEach {
+            Log.d(TAG, it.toString())
+        }
+        /*
+
+
+        alerts.setButton(AlertDialog.BUTTON_NEGATIVE, "NO") { _: DialogInterface?, _ ->
+            Toast.makeText(
+                this@Final, "No has cerrado sesión",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+
+         */
         // ¿Te atreves con un RecyclerView?
     }
 
@@ -60,11 +88,14 @@ class Ut03Ex03Activity : AppCompatActivity() {
                     mutableListOf(ClothesModel(2, "Lana"))
                 )
             )
+
+            /*
+
             repository.saveCustomer(
                 CustomerModel(2,"Ser", 22,
                 mutableListOf(ClothesModel(3,"Tela")))
             )
-
+            */
             val customers = repository.fetchAll()
             Log.d(TAG,"$customers")
 
