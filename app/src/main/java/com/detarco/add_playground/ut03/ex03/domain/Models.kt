@@ -35,7 +35,7 @@ data class CustomerLocalModel(val name: String, val age: Int):
         override fun getId(): String = ID
 
     companion object {
-        val ID: String = CustomerLocalModel::class.java.simpleName
+        var ID: String = CustomerLocalModel::class.java.simpleName
         val name: String = CustomerLocalModel::class.java.simpleName
         val age: String = CustomerLocalModel::class.java.simpleName
     }

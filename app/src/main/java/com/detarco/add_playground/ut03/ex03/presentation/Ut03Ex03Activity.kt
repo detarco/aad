@@ -11,6 +11,11 @@ import com.detarco.add_playground.ut03.ex03.data.CustomerDataRepository
 import com.detarco.add_playground.ut03.ex03.data.local.CustomerLocalSource
 import com.detarco.add_playground.ut03.ex03.data.local.SharPrefLocalStorage
 import com.detarco.add_playground.ut03.ex03.domain.*
+import okhttp3.Headers.Companion.toHeaders
+import com.google.gson.Gson
+
+
+
 
 class Ut03Ex03Activity : AppCompatActivity() {
 
@@ -30,6 +35,7 @@ class Ut03Ex03Activity : AppCompatActivity() {
         customerLocalRepository = CustomerLocalRepository(SharPrefLocalStorage(this, GsonSerializer()))
 
         executeQuery()
+        //saveLocal()
         localOrRemote()
 
     }
@@ -61,7 +67,7 @@ class Ut03Ex03Activity : AppCompatActivity() {
 
     }
 
-    private fun localOrRemote(){
+    private fun saveLocal(){
         val customerLocalModel = customerLocalRepository.fetch()
 
         if (customerLocalModel == null) {
@@ -74,7 +80,32 @@ class Ut03Ex03Activity : AppCompatActivity() {
             customerLocalRepository.save(CustomerLocalModel("Fernando Local", 23))
             Log.d(TAG, "Se ha modificado el fichero con el modelo")
         }
-
+        Log.d(TAG, "saveLocal() terminada")
 
     }
+
+    /*
+    Crashea la aplicación, requiere arreglos
+ */
+
+    private fun localOrRemote(){
+
+        val customerLocalModel = customerLocalRepository.fetch()
+
+        if (customerLocalModel != null){
+
+            Thread{
+
+                val customers = repository.fetchAll()
+                customers.forEach{
+                    customerLocalRepository.save(CustomerLocalModel(it.name, it.age))
+                    Log.d(TAG, "El documento debería guardar $it");
+                }
+
+            }.start()
+        }
+    }
+
+    /*
+    */
 }
