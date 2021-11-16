@@ -29,8 +29,8 @@ class Ut03Ex03Activity : AppCompatActivity() {
     private lateinit var customerLocalRepository: CustomerLocalRepository
 
     //RecyclerViewStuff
-    private var recyclerView = findViewById<RecyclerView>(R.id.rvAlerts)
-    private lateinit var linearLayoutManager: LinearLayoutManager
+    //private var recyclerView = findViewById<RecyclerView>(R.id.rvAlerts)
+    //private lateinit var linearLayoutManager: LinearLayoutManager
 
     private val repository : CustomerRepository by lazy {
         CustomerDataRepository(CustomerLocalSource(applicationContext))
@@ -42,8 +42,8 @@ class Ut03Ex03Activity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ut03_ex03)
 
-        linearLayoutManager = LinearLayoutManager(this)
-        recyclerView.layoutManager = linearLayoutManager
+        //linearLayoutManager = LinearLayoutManager(this)
+        //recyclerView.layoutManager = linearLayoutManager
 
         customerLocalRepository = CustomerLocalRepository(SharPrefLocalStorage(this, GsonSerializer()))
 
