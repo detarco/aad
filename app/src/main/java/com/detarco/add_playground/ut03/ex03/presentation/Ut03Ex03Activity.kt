@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.detarco.add_playground.R
 import com.detarco.add_playground.commons.GsonSerializer
+import com.detarco.add_playground.ut03.ex03.app.RetrofitApiClient
 import com.detarco.add_playground.ut03.ex03.data.CustomerDataRepository
 import com.detarco.add_playground.ut03.ex03.data.local.CustomerLocalSource
 import com.detarco.add_playground.ut03.ex03.data.local.SharPrefLocalStorage
@@ -26,8 +27,9 @@ class Ut03Ex03Activity : AppCompatActivity() {
 
     private val TAG = Ut03Ex03Activity::class.java.simpleName
     private lateinit var customerLocalRepository: CustomerLocalRepository
-    private var recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
 
+    //RecyclerViewStuff
+    private var recyclerView = findViewById<RecyclerView>(R.id.rvAlerts)
     private lateinit var linearLayoutManager: LinearLayoutManager
 
     private val repository : CustomerRepository by lazy {
@@ -47,8 +49,12 @@ class Ut03Ex03Activity : AppCompatActivity() {
 
         executeQuery()
         //saveLocal()
-        localOrRemote()
+        fromDatabaseToSharPref()
 
+        //retrofit2.Retrofit.Builder() //No sé qué estoy haciendo
+
+
+        //No se crean alerts, cómo hacerlo
         //getAllAlerts()
         //getAlertById()
 
@@ -56,27 +62,20 @@ class Ut03Ex03Activity : AppCompatActivity() {
 
     private fun getAllAlerts(){
         val alerts = viewModel.getAlerts()
+
         //..Visualizar la información en un LOG.
         alerts.forEach {
             Log.d(TAG, it.toString())
         }
-        /*
 
-
-        alerts.setButton(AlertDialog.BUTTON_NEGATIVE, "NO") { _: DialogInterface?, _ ->
-            Toast.makeText(
-                this@Final, "No has cerrado sesión",
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-
-         */
         // ¿Te atreves con un RecyclerView?
+        // No puedo trabajar con ello, la c
     }
 
     private fun getAlertById(){
-        val alertId = ""
+        val alertId = "1"
         val alerts = viewModel.findAlert(alertId)
+        Log.d(TAG, "$alerts")
         // ¿Te atreves con un RecyclerView?
     }
 
@@ -89,7 +88,7 @@ class Ut03Ex03Activity : AppCompatActivity() {
                 )
             )
 
-            /*
+            /* Sólo guardaria uno en SharedPreference, hacer cambios?
 
             repository.saveCustomer(
                 CustomerModel(2,"Ser", 22,
@@ -120,11 +119,7 @@ class Ut03Ex03Activity : AppCompatActivity() {
 
     }
 
-    /*
-    Crashea la aplicación, requiere arreglos
- */
-
-    private fun localOrRemote(){
+    private fun fromDatabaseToSharPref(){
 
         val customerLocalModel = customerLocalRepository.fetch()
 
