@@ -1,55 +1,73 @@
 package com.detarco.add_playground.ut03.ex03.data.local.entity
 
 import androidx.room.*
-import com.detarco.add_playground.ut03.ex03.domain.CustomerModel
-import com.detarco.add_playground.ut03.ex03.domain.ClothesModel
+import com.detarco.add_playground.ut03.ex03.data.local.LocalModel
+import com.detarco.add_playground.ut03.ex03.domain.AlertModel
+import com.detarco.add_playground.ut03.ex03.domain.FileModel
 
-
-@Entity(tableName = "customer")
-data class CustomerEntity(
-    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id") val id: Int,
-    @ColumnInfo(name = "name") val name: String,
-    @ColumnInfo(name = "age") val age: Int
-) {
+@Entity(tableName = "alerts")
+data class AlertEntity(
+    @PrimaryKey @ColumnInfo(name = "id") val id: String,
+    @ColumnInfo(name = "title") val title: String,
+    @ColumnInfo(name = "type") val type: Int,
+    @ColumnInfo(name = "summary") val summary: String,
+    @ColumnInfo(name = "datePublished") val datePublished: String,
+    @ColumnInfo(name = "body") val body: String,
+    @ColumnInfo(name = "source") val source: String
+) //: LocalModel {
+    //override fun getId(): String = alertId
+//}
+{
     fun toModel(
-        clothesEntity: List<ClothesEntity>
+        filesEntity : List<FilesEntity>
     ) =
-        CustomerModel(
+        AlertModel(
             id,
-            name,
-            age,
-            clothesEntity.map { it.toModel() }.toMutableList()
+            title,
+            type,
+            summary,
+            datePublished,
+            body,
+            source,
+            filesEntity.map { it.toModel() }.toMutableList()
         )
-
-    companion object {
-        fun toEntity(customerModel: CustomerModel) =
-            CustomerEntity(customerModel.id, customerModel.name, customerModel.age)
+    companion object{
+        fun toEntity(alertModel: AlertModel) =
+            AlertEntity(
+                alertModel.id,
+                alertModel.title,
+                alertModel.type,
+                alertModel.summary,
+                alertModel.datePublished,
+                alertModel.body,
+                alertModel.source
+            )
     }
 }
 
-@Entity(tableName = "clothes")
-data class ClothesEntity(
-    @PrimaryKey @ColumnInfo(name = "id") val id: Int,
-    @ColumnInfo(name = "type") val type: String,
-    @ColumnInfo(name = "customer_id") val customerId: Int
+@Entity(tableName = "files")
+data class FilesEntity(
+    @ColumnInfo(name = "name") val name: String,
+    @ColumnInfo(name = "url") val url: String,
+    @ColumnInfo(name = "alert_id") val alertId: String
 ) {
-    fun toModel(): ClothesModel = ClothesModel(id, type)
+    fun toModel(): FileModel = FileModel(name, url)
 
     companion object {
-        fun toEntity(clothesModel: List<ClothesModel>, customerId: Int) = clothesModel.map {
-            ClothesEntity(it.id, it.type, customerId)
+        fun toEntity(filesModel: List<FileModel>, alertId: String) = filesModel.map {
+            FilesEntity(it.name, it.url, alertId)
         }
     }
 }
 
-data class CustomerAndClothes(
-    @Embedded val customerEntity: CustomerEntity,
+data class AlertAndFiles(
+    @Embedded val alertEntity: AlertEntity,
 
     @Relation(
         parentColumn = "id",
-        entityColumn = "customer_id"
-    ) val clothesEntities: List<ClothesEntity>,
+        entityColumn = "alert_id"
+    ) val filesEntity: List<FilesEntity>,
 
-) {
-    fun toModel() = customerEntity.toModel(clothesEntities)
+    ) {
+    fun toModel() = alertEntity.toModel(filesEntity)
 }

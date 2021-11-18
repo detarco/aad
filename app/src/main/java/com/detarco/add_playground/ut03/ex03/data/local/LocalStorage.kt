@@ -4,11 +4,14 @@ import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import com.detarco.add_playground.R
 import com.detarco.add_playground.commons.Serializer
-import com.detarco.add_playground.ut03.ex03.domain.LocalModel
+import com.detarco.add_playground.ut03.ex03.app.db.Ut03Ex03DataBase
+import com.detarco.add_playground.ut03.ex03.data.local.entity.AlertEntity
+import com.detarco.add_playground.ut03.ex03.data.local.entity.FilesEntity
 
 interface LocalStorage<T : LocalModel> {
-    fun save(model: T)
-    fun fetch(id: String): T?
+    fun save(models: List<T>)
+    fun findById(alertId: String): T
+    fun findAll(): List<T>
 }
 
 class SharPrefLocalStorage<T : LocalModel>(
@@ -20,13 +23,13 @@ class SharPrefLocalStorage<T : LocalModel>(
         activity.getString(R.string.ut03_preference_file_exercise03), Context.MODE_PRIVATE
     )
 
-    override fun save(model: T) {
+    override fun save(models: List<T>) {
         val edit = sharedPref.edit()
-        edit?.putString(model.getId(), serializer.toJson(model))
+        edit?.putString(models.getAlertId(), serializer.toJson.(models))
         edit?.apply()
     }
 
-    override fun fetch(id: String): T? {
+    override fun findById(alertId: String): T? {
         val jsonModel = sharedPref.getString(id, "{}")
         return if (jsonModel != null) {
             serializer.fromJson(jsonModel)
@@ -34,4 +37,12 @@ class SharPrefLocalStorage<T : LocalModel>(
             null
         }
     }
+
+    override fun findAll(): List<T> {
+        val jsonModel = sharedPref.getString(id, "{}")
+    }
 }
+
+
+
+

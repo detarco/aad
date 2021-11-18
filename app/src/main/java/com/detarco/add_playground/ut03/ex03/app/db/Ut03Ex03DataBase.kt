@@ -1,26 +1,26 @@
-package com.detarco.add_playground.ut03.ex03.app
+package com.detarco.add_playground.ut03.ex03.app.db
 
 import android.content.Context
 import androidx.room.Database;
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.detarco.add_playground.ut03.ex03.data.local.dao.ClothesDao
-import com.detarco.add_playground.ut03.ex03.data.local.dao.CustomerDao
-import com.detarco.add_playground.ut03.ex03.data.local.entity.CustomerEntity
-import com.detarco.add_playground.ut03.ex03.data.local.entity.ClothesEntity
+import com.detarco.add_playground.ut03.ex03.data.local.dao.AlertDao
+import com.detarco.add_playground.ut03.ex03.data.local.dao.FileDao
+import com.detarco.add_playground.ut03.ex03.data.local.entity.AlertEntity
+import com.detarco.add_playground.ut03.ex03.data.local.entity.FilesEntity
 
 import kotlin.jvm.Volatile;
 
 @Database(
-    entities = [CustomerEntity::class, ClothesEntity::class],
+    entities = [AlertEntity::class, FilesEntity::class],
     version = 1,
     exportSchema = false
 )
 
 abstract class Ut03Ex03DataBase : RoomDatabase() {
 
-    abstract fun customerDao(): CustomerDao
-    abstract fun clothesDao(): ClothesDao
+    abstract fun alertDao(): AlertDao
+    abstract fun fileDao(): FileDao
 
     companion object {
         @Volatile

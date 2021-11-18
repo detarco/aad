@@ -1,7 +1,7 @@
 package com.detarco.add_playground.ut03.ex03.data.local
 
 import android.content.Context
-import com.detarco.add_playground.ut03.ex03.app.Ut03Ex03DataBase
+import com.detarco.add_playground.ut03.ex03.app.db.Ut03Ex03DataBase
 import com.detarco.add_playground.ut03.ex03.data.local.entity.ClothesEntity
 import com.detarco.add_playground.ut03.ex03.data.local.entity.CustomerEntity
 import com.detarco.add_playground.ut03.ex03.domain.CustomerModel
@@ -20,7 +20,7 @@ class CustomerLocalSource(applicationContext: Context) {
 
     fun findAll(): List<CustomerModel> {
 
-        val customerAndClothes = db.customerDao().getCustomerAndClothes()
+        val customerAndClothes = db.alertDao().getCustomerAndClothes()
 
         return customerAndClothes.map { element -> element.toModel() }
 
