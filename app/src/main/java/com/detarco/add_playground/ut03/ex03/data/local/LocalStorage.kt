@@ -4,9 +4,6 @@ import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import com.detarco.add_playground.R
 import com.detarco.add_playground.commons.Serializer
-import com.detarco.add_playground.ut03.ex03.app.db.Ut03Ex03DataBase
-import com.detarco.add_playground.ut03.ex03.data.local.entity.AlertEntity
-import com.detarco.add_playground.ut03.ex03.data.local.entity.FilesEntity
 
 interface LocalStorage<T : LocalModel> {
     fun save(models: List<T>)
@@ -29,7 +26,7 @@ class SharPrefLocalStorage<T : LocalModel>(
         edit?.apply()
     }
 
-    override fun findById(alertId: String): T? {
+    override fun findById(alertId: String): T {
         val jsonModel = sharedPref.getString(id, "{}")
         return if (jsonModel != null) {
             serializer.fromJson(jsonModel)

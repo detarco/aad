@@ -4,15 +4,15 @@ import android.content.Context
 import androidx.room.Database;
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.detarco.add_playground.ut03.ex03.data.local.dao.AlertDao
-import com.detarco.add_playground.ut03.ex03.data.local.dao.FileDao
-import com.detarco.add_playground.ut03.ex03.data.local.entity.AlertEntity
-import com.detarco.add_playground.ut03.ex03.data.local.entity.FilesEntity
+import com.detarco.add_playground.ut03.ex03.data.local.db.dao.AlertDao
+import com.detarco.add_playground.ut03.ex03.data.local.db.entity.AlertEntity
+import com.detarco.add_playground.ut03.ex03.data.local.db.entity.FileEntity
+import com.detarco.add_playground.ut03.ex03.data.local.db.entity.FilesEntity
 
 import kotlin.jvm.Volatile;
 
 @Database(
-    entities = [AlertEntity::class, FilesEntity::class],
+    entities = [AlertEntity::class, FileEntity::class],
     version = 1,
     exportSchema = false
 )
@@ -20,7 +20,6 @@ import kotlin.jvm.Volatile;
 abstract class Ut03Ex03DataBase : RoomDatabase() {
 
     abstract fun alertDao(): AlertDao
-    abstract fun fileDao(): FileDao
 
     companion object {
         @Volatile

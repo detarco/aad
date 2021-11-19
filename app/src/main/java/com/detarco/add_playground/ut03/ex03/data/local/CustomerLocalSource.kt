@@ -2,8 +2,8 @@ package com.detarco.add_playground.ut03.ex03.data.local
 
 import android.content.Context
 import com.detarco.add_playground.ut03.ex03.app.db.Ut03Ex03DataBase
-import com.detarco.add_playground.ut03.ex03.data.local.entity.ClothesEntity
-import com.detarco.add_playground.ut03.ex03.data.local.entity.CustomerEntity
+import com.detarco.add_playground.ut03.ex03.data.local.db.entity.ClothesEntity
+import com.detarco.add_playground.ut03.ex03.data.local.db.entity.CustomerEntity
 import com.detarco.add_playground.ut03.ex03.domain.CustomerModel
 
 

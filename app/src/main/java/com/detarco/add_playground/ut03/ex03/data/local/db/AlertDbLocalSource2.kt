@@ -1,11 +1,13 @@
-package com.detarco.add_playground.ut03.ex03.data.local
+package com.detarco.add_playground.ut03.ex03.data.local.db
 
 import android.content.Context
 import com.detarco.add_playground.ut03.ex03.app.db.Ut03Ex03DataBase
-import com.detarco.add_playground.ut03.ex03.data.local.entity.AlertEntity
-import com.detarco.add_playground.ut03.ex03.data.local.entity.FilesEntity
+import com.detarco.add_playground.ut03.ex03.data.local.LocalModel
+import com.detarco.add_playground.ut03.ex03.data.local.LocalStorage
+import com.detarco.add_playground.ut03.ex03.data.local.db.entity.AlertEntity
 
-class DbLocalStorage<T: LocalModel>(private val context: Context) : LocalStorage<T>{
+
+class DbLocalSource2<T: LocalModel>(private val context: Context) : LocalStorage<T>{
 
     init {
         Thread {
