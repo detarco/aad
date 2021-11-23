@@ -1,4 +1,4 @@
-package com.detarco.add_playground.ut01
+package com.detarco.add_playground.ut01.ex01
 
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
