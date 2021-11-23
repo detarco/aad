@@ -4,46 +4,29 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import com.detarco.add_playground.R
-import com.detarco.add_playground.commons.GsonSerializer
-import com.detarco.add_playground.ut03.ex03.app.api.RetrofitApiClient
-import com.detarco.add_playground.ut03.ex03.data.AlertDataRepository
-import com.detarco.add_playground.ut03.ex03.data.local.SharPrefLocalStorage
 import com.detarco.add_playground.ut03.ex03.data.local.db.AlertDbLocalSource
-import com.detarco.add_playground.ut03.ex03.data.remote.AlertRemoteSource
-import com.detarco.add_playground.ut03.ex03.domain.*
+import com.detarco.add_playground.ut03.ex03.data.local.files.AlertFileLocalSource
 
 
 class Ut03Ex03Activity : AppCompatActivity() {
 
     private val TAG = Ut03Ex03Activity::class.java.simpleName
 
-    //RecyclerViewStuff
-    //private var recyclerView = findViewById<RecyclerView>(R.id.rvAlerts)
-    //private lateinit var linearLayoutManager: LinearLayoutManager
 
-/**
     private val viewModel: Ut03Ex03ViewModel by lazy {
         AlertViewModelFactory.build(AlertDbLocalSource(applicationContext))
+        //AlertViewModelFactory.build(AlertFileLocalSource(applicationContext as AppCompatActivity))
     }
-    */
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ut03_ex03)
 
-        //linearLayoutManager = LinearLayoutManager(this)
-        //recyclerView.layoutManager = linearLayoutManager
-
-        //customerLocalRepository = CustomerLocalRepository(SharPrefLocalStorage(this, GsonSerializer()))
-
-        executeQuery()
+        //executeQuery()
         //saveLocal()
-        fromDatabaseToSharPref()
+        //fromDatabaseToSharPref()
 
-        //retrofit2.Retrofit.Builder() //No sé qué estoy haciendo
-
-
-        //No se crean alerts, cómo hacerlo
         //getAllAlerts()
         //getAlertById()
 
@@ -52,22 +35,21 @@ class Ut03Ex03Activity : AppCompatActivity() {
     private fun getAllAlerts(){
         val alerts = viewModel.getAlerts()
 
+        Log.d(TAG, "$alerts")
         //..Visualizar la información en un LOG.
-        alerts.forEach {
-            Log.d(TAG, it.toString())
-        }
 
         // ¿Te atreves con un RecyclerView?
         // No puedo trabajar con ello, la c
     }
 
     private fun getAlertById(){
-        val alertId = ""
+        val alertId = "1900673"
         val alerts = viewModel.findAlert(alertId)
         Log.d(TAG, "$alerts")
         // ¿Te atreves con un RecyclerView?
     }
 
+    /**
     private fun executeQuery(){
 
         Thread{
@@ -126,6 +108,5 @@ class Ut03Ex03Activity : AppCompatActivity() {
         }
     }
 
-    /*
     */
 }

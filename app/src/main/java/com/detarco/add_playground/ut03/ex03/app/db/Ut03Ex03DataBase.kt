@@ -7,7 +7,6 @@ import androidx.room.RoomDatabase
 import com.detarco.add_playground.ut03.ex03.data.local.db.dao.AlertDao
 import com.detarco.add_playground.ut03.ex03.data.local.db.entity.AlertEntity
 import com.detarco.add_playground.ut03.ex03.data.local.db.entity.FileEntity
-import com.detarco.add_playground.ut03.ex03.data.local.db.entity.FilesEntity
 
 import kotlin.jvm.Volatile;
 

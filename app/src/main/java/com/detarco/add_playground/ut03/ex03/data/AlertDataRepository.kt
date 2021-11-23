@@ -19,7 +19,7 @@ class AlertDataRepository(
             return alerts
         }
 
-        override fun fetchById(alertId: String): AlertModel? {
+        override fun fetchById(alertId: String): AlertModel {
             var alert = localSource.findById(alertId)
             if (alert == null) {
                 alert = remoteSource.getAlert(alertId)
@@ -27,7 +27,7 @@ class AlertDataRepository(
                     localSource.save(alert)
                 }
             }
-            return alert
+            return alert!!
         }
 
     }
