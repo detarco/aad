@@ -1,4 +1,4 @@
-package com.detarco.add_playground.ut02.exercise02
+package com.detarco.add_playground.ut02.ex02
 
 /**
  * Clase que me permite guardar y recuperar modelos de datos de tipo Tapa

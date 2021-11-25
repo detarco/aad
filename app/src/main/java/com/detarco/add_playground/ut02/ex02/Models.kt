@@ -1,4 +1,4 @@
-package com.detarco.add_playground.ut02.exercise02
+package com.detarco.add_playground.ut02.ex02
 
 interface LocalModel {
     fun getId(): Int
