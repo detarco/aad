@@ -1,5 +1,6 @@
 package com.detarco.add_playground.ut01.ex02
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import com.detarco.add_playground.commons.serializer.GsonSerializer
 import java.io.File
@@ -8,35 +9,32 @@ import java.io.File
  * Clase para persistir información en ficheros.
  */
 class CustomerFileLocalSource(
-    private val activity: AppCompatActivity,
+    private val context: Context,
     private val serializer: GsonSerializer
 ) {
-
-    //private val customerList = mutableListOf<CustomerModel>()
 
     /**
      * Función que me permite guardar un cliente en un fichero.
      */
     fun save(customer: CustomerModel) {
-        val file = File(activity.filesDir, "customers.txt")
-
-        val custom = serializer.toJson(customer, CustomerModel::class.java)
-
-        //file.appendText("$customer")
-        file.appendText(custom)
-
+        val file = getFile(CUSTOMERS_FILENAME)
+        file.appendText(
+            serializer.toJson(customer, CustomerModel::class.java)+System.lineSeparator()
+        )
     }
 
     /**
      * Función que me permite guardar un listado de clientes en un fichero.
      */
     fun save(customers: List<CustomerModel>) {
-        val file = File(activity.filesDir, "customers.txt")
-
-        customers.forEach {
-            //val custom = serializer.toJson(it)
-            //file.appendText(custom)
-            file.appendText(serializer.toJson(it, CustomerModel::class.java))
+        val file = getFile(CUSTOMERS_FILENAME)
+        customers.map{
+            customerModel ->
+            file.appendText(
+                serializer.toJson(customerModel,
+                    CustomerModel::class.java
+                ) + System.lineSeparator()
+            )
         }
     }
 
@@ -45,37 +43,66 @@ class CustomerFileLocalSource(
      * Se puede modificar cualquier dato excepto el id del cliente.
      */
     fun update(customer: CustomerModel) {
-        val file = File(activity.filesDir, "customers.txt")
-
-        val custom = serializer.fromJson(file,)
+        val file = getFile(getCustomerDetailFileName(customer.id))
+        file.writeText(
+            serializer.toJson(customer, CustomerModel::class.java)
+        )
     }
 
     /**
      * Función que me permite eliminar un cliente de un fichero.
      */
     fun remove(customerId: Int) {
-        val file = File(activity.filesDir, "customers.txt")
-        val lines = file.readLines()
-
+        val file = getFile(getCustomerDetailFileName(customerId))
+        file.delete()
     }
 
     /**
      * Función que me permite obtener un listado de todos los clientes almacenados en un fichero.
      */
     fun fetch(): List<CustomerModel> {
-        val file = File(activity.filesDir, "customers.txt")
 
-        file.readText()
+        val customers: MutableList<CustomerModel> = mutableListOf()
 
-        return emptyList()
+        val file = getFile(CUSTOMERS_FILENAME)
+
+        val lines = file.readLines()
+
+        lines.map{
+                line ->
+            val customerModel = serializer.fromJson(line, CustomerModel::class.java)
+            customers.add(customerModel)
+        }
+
+        return customers
     }
 
     fun findById(customerId: Int): CustomerModel? {
-        //TODO
-        return null
+        val file = getFile(getCustomerDetailFileName(customerId))
+
+        return if (!file.exists()){
+            null
+        }else
+            serializer.fromJson(file.readText(), CustomerModel::class.java)
     }
 
     fun deleteFiles(){
-        TODO()
+        val file = getFile(CUSTOMERS_FILENAME)
+        file.delete()
+    }
+
+    private fun getFile(fileName: String): File{
+        val file = File(context.filesDir, fileName)
+
+        if (!file.exists()){
+            file.createNewFile()
+        }
+        return file
+
+    }
+
+    companion object{
+        const val CUSTOMERS_FILENAME: String = "aad_ut01_ex02_customers.txt"
+        fun getCustomerDetailFileName(customerId: Int): String = "aad_customer_detail_$customerId.txt"
     }
 }
