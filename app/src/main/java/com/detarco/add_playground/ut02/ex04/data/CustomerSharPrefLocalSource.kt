@@ -38,7 +38,8 @@ class CustomerSharPrefLocalSource(
      * Se puede modificar cualquier dato excepto el id del cliente.
      */
     fun update(customer: CustomerModel) {
-        //TODO
+        val edit = sharedPref.edit()
+
     }
 
     /**
@@ -47,7 +48,7 @@ class CustomerSharPrefLocalSource(
     fun remove(customerId: Int) {
         val edit = sharedPref.edit()
         edit?.clear()
-        edit?.commit()
+        edit?.apply()
     }
 
     /**

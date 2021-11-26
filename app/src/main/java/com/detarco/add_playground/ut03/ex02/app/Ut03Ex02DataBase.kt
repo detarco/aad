@@ -4,8 +4,8 @@ import android.content.Context
 import androidx.room.Database;
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.detarco.add_playground.ut03.ex02.data.*
 import com.detarco.add_playground.ut03.ex02.data.local.dao.*
+import com.detarco.add_playground.ut03.ex02.data.local.entity.*
 
 import kotlin.jvm.Volatile;
 

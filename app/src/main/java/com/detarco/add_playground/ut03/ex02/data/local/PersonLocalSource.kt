@@ -1,9 +1,8 @@
 package com.detarco.add_playground.ut03.ex02.data.local
 
-import android.app.Person
 import android.content.Context
 import com.detarco.add_playground.ut03.ex02.app.Ut03Ex02DataBase
-import com.detarco.add_playground.ut03.ex02.data.*
+import com.detarco.add_playground.ut03.ex02.data.local.entity.*
 import com.detarco.add_playground.ut03.ex02.domain.PersonModel
 
 class PersonLocalSource(applicationContext: Context) {
