@@ -12,8 +12,8 @@ interface CustomerDao {
     fun findAll(): List<AlertAndFiles>
 
     @Transaction
-    @Query("SELECT * FROM alerts WHERE id = :alertId")
-    fun findById(alertId: String): AlertAndFiles?
+    @Query("SELECT * FROM customers WHERE id = :customerId")
+    fun findById(customerId: String): AlertAndFiles?
 
     @Insert
     fun insert(alertEntity: AlertEntity)
