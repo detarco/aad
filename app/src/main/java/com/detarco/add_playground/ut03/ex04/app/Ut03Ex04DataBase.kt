@@ -5,6 +5,13 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.detarco.add_playground.ut03.ex04.data.db.*
+import com.detarco.add_playground.ut03.ex04.data.db.dao.CustomerDao
+import com.detarco.add_playground.ut03.ex04.data.db.dao.InvoiceDao
+import com.detarco.add_playground.ut03.ex04.data.db.dao.ProductDao
+import com.detarco.add_playground.ut03.ex04.data.db.entity.CustomerEntity
+import com.detarco.add_playground.ut03.ex04.data.db.entity.InvoiceEntity
+import com.detarco.add_playground.ut03.ex04.data.db.entity.InvoiceLinesEntity
+import com.detarco.add_playground.ut03.ex04.data.db.entity.ProductEntity
 
 @Database(
     entities = [CustomerEntity::class, ProductEntity::class, InvoiceLinesEntity::class, InvoiceEntity::class],
@@ -15,8 +22,8 @@ abstract class Ut03Ex04DataBase : RoomDatabase() {
 
     abstract fun customerDao(): CustomerDao
     abstract fun productDao(): ProductDao
-    abstract fun invoiceLinesDao(): InvoiceLinesDao
     abstract fun invoiceDao(): InvoiceDao
+    //abstract fun invoiceLinesDao(): InvoiceLinesDao
 
     /**
      * A través del patrón de diseño SINGLETON creamos una instancia de la base de datos
