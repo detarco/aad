@@ -1,8 +1,7 @@
-package com.detarco.add_playground.ut03.ex04.data.db.dao
+package com.detarco.add_playground.ut03.ex04.data.local.db.dao
 
 import androidx.room.*
-import com.detarco.add_playground.ut03.ex02.data.local.entity.PersonEntity
-import com.detarco.add_playground.ut03.ex04.data.db.entity.ProductEntity
+import com.detarco.add_playground.ut03.ex04.data.local.db.entity.ProductEntity
 import com.detarco.add_playground.ut03.ex04.domain.ProductModel
 
 @Dao

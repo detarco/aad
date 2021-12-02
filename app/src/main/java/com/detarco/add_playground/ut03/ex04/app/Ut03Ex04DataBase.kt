@@ -4,14 +4,13 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.detarco.add_playground.ut03.ex04.data.db.*
-import com.detarco.add_playground.ut03.ex04.data.db.dao.CustomerDao
-import com.detarco.add_playground.ut03.ex04.data.db.dao.InvoiceDao
-import com.detarco.add_playground.ut03.ex04.data.db.dao.ProductDao
-import com.detarco.add_playground.ut03.ex04.data.db.entity.CustomerEntity
-import com.detarco.add_playground.ut03.ex04.data.db.entity.InvoiceEntity
-import com.detarco.add_playground.ut03.ex04.data.db.entity.InvoiceLinesEntity
-import com.detarco.add_playground.ut03.ex04.data.db.entity.ProductEntity
+import com.detarco.add_playground.ut03.ex04.data.local.db.dao.CustomerDao
+import com.detarco.add_playground.ut03.ex04.data.local.db.dao.InvoiceDao
+import com.detarco.add_playground.ut03.ex04.data.local.db.dao.ProductDao
+import com.detarco.add_playground.ut03.ex04.data.local.db.entity.CustomerEntity
+import com.detarco.add_playground.ut03.ex04.data.local.db.entity.InvoiceEntity
+import com.detarco.add_playground.ut03.ex04.data.local.db.entity.InvoiceLinesEntity
+import com.detarco.add_playground.ut03.ex04.data.local.db.entity.ProductEntity
 
 @Database(
     entities = [CustomerEntity::class, ProductEntity::class, InvoiceLinesEntity::class, InvoiceEntity::class],

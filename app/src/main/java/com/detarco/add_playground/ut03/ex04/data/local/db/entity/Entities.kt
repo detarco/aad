@@ -1,11 +1,10 @@
-package com.detarco.add_playground.ut03.ex04.data.db.entity
+package com.detarco.add_playground.ut03.ex04.data.local.db.entity
 
 import androidx.room.*
 import com.detarco.add_playground.ut03.ex04.domain.CustomerModel
 import com.detarco.add_playground.ut03.ex04.domain.InvoiceLinesModel
 import com.detarco.add_playground.ut03.ex04.domain.InvoiceModel
 import com.detarco.add_playground.ut03.ex04.domain.ProductModel
-import java.util.*
 
 @Entity(tableName = "customers")
 data class CustomerEntity(
@@ -64,7 +63,7 @@ data class InvoiceLinesEntity(
 @Entity(tableName = "invoice")
 data class InvoiceEntity(
     @PrimaryKey @ColumnInfo(name = "id") val id:Int,
-    @ColumnInfo(name = "date") val date:Date,
+    @ColumnInfo(name = "date") val date:String,
     @ColumnInfo(name = "customer_id") val customerId:Int,
     @ColumnInfo(name = "invoice_line_id") val invoiceLineId:Int
 ){
@@ -73,60 +72,41 @@ data class InvoiceEntity(
         invoiceLinesEntity: List<InvoiceLinesEntity>
     ) = InvoiceModel(
         id,
+        //SpainDate(date).dateToString(date),
         date,
         customerEntity.toModel(),
         mutableListOf()
         //invoiceLinesEntity.map { it.toModel() }.toMutableList()
     )
 }
-    /**{
-    }
-    fun toModel(
-        customerEntity: CustomerEntity,
-        //productEntity: ProductEntity,
-        invoiceLinesEntity:  List<InvoiceLinesEntity>
-    ) =
-        InvoiceModel(
-            id,
-            date,
-            customerEntity.toModel(),
-            /**
-             * Preguntar sobre esto
-             */
-            invoiceLinesEntity.map{ it.toModel(it.productId) }.toMutableList()
-        )
-    companion object{
-        fun toEntity(invoiceModel: List<InvoiceModel>, customerId: Int, invoiceLineId: Int) = invoiceModel.map{
-            InvoiceEntity(it.id, it.date, it.customerId, it.invoiceLinesModel)
-        }
-    }
-}
-*/
 
 data class InvoiceAndProduct(
-    @Embedded val invoiceLinesEntity: InvoiceLinesEntity,
+        @Embedded val invoiceLinesEntity: InvoiceLinesEntity,
 
-    @Relation(
+        @Relation(
         parentColumn = "id",
         entityColumn = "product_id"
     )val productEntity: ProductEntity
     ){
-    fun toModel() = invoiceLinesEntity.toModel(productEntity)
+    fun toModel() = InvoiceLinesModel(
+        invoiceLinesEntity.id,
+        productEntity.toModel()
+    )
 }
 
 data class InvoiceAndCustomerAndProduct(
     @Embedded val invoiceEntity: InvoiceEntity,
 
     @Relation(
-        parentColumn = "id",
-        entityColumn = "customer_id",
+        parentColumn = "customer_id",
+        entityColumn = "id",
     ) val customerEntity: CustomerEntity,
 
     @Relation(
-        parentColumn = "id",
-        entityColumn = "invoice_line_id",
-    ) val invoiceLinesEntity: List<InvoiceLinesEntity>
+        parentColumn = "invoice_line_id",
+        entityColumn = "id",
+    ) val invoiceLinesEntities: List<InvoiceLinesEntity>
 
     ){
-    fun toModel() = invoiceEntity.toModel(customerEntity, invoiceLinesEntity)
+    fun toModel() = invoiceEntity.toModel(customerEntity, invoiceLinesEntities)
 }

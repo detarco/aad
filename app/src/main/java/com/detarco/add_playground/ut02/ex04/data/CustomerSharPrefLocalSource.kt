@@ -39,7 +39,7 @@ class CustomerSharPrefLocalSource(
      */
     fun update(customer: CustomerModel) {
         val edit = sharedPref.edit()
-
+        edit.commit()
     }
 
     /**
@@ -57,11 +57,15 @@ class CustomerSharPrefLocalSource(
     fun fetch(): List<CustomerModel> {
         val customers: MutableList<CustomerModel> = mutableListOf()
 
+        /**
+         *
+
         customers.map {
             line->
             val customerModel = serializer.fromJson(line, CustomerModel::class.java)
         }
         fetchCustomerInXml()
+         */
         return emptyList()
     }
 

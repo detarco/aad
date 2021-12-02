@@ -1,10 +1,10 @@
-package com.detarco.add_playground.ut03.ex04.data.db.dao
+package com.detarco.add_playground.ut03.ex04.data.local.db.dao
 
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
-import com.detarco.add_playground.ut03.ex04.data.db.entity.InvoiceAndCustomerAndProduct
-import com.detarco.add_playground.ut03.ex04.data.db.entity.InvoiceLinesEntity
+import com.detarco.add_playground.ut03.ex04.data.local.db.entity.InvoiceAndCustomerAndProduct
+import com.detarco.add_playground.ut03.ex04.data.local.db.entity.InvoiceLinesEntity
 
 @Dao
 interface InvoiceDao {

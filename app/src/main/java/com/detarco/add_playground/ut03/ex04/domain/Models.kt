@@ -1,6 +1,6 @@
 package com.detarco.add_playground.ut03.ex04.domain
 
-import java.util.*
+import java.sql.Date
 
 data class CustomerModel(
     val id: Int,
@@ -22,7 +22,11 @@ data class InvoiceLinesModel(
 
 data class InvoiceModel(
     val id: Int,
-    val date: Date,
+    /**
+     * Cambio para poder guardar la fecha como string
+     * date da problemas porque recoge nulo
+     */
+    val date: String,
     val customerModel: CustomerModel,
     val invoiceLinesModel: List<InvoiceLinesModel>
     )
