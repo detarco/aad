@@ -1,6 +1,7 @@
 package com.detarco.add_playground.ut03.ex03.app.api
 
-import com.detarco.add_playground.ut03.ex03.data.remote.AlertApiModel
+import com.detarco.add_playground.ut03.ex03_b.ex03.data.remote.AlertApiModel
+import com.detarco.add_playground.ut03.ex03_b.ex03.app.api.ApiResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path

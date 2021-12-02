@@ -2,6 +2,8 @@ package com.detarco.add_playground.ut03.ex03.app.storage
 
 import android.content.Context
 import com.detarco.add_playground.ut03.ex03.app.serializer.JsonSerializer
+import com.detarco.add_playground.ut03.ex03_b.ex03.app.storage.LocalModel
+import com.detarco.add_playground.ut03.ex03_b.ex03.app.storage.LocalStorage
 
 class SharPrefLocalStorage<T : LocalModel>(
     private val context: Context,

@@ -24,7 +24,7 @@ data class InvoiceModel(
     val id: Int,
     /**
      * Cambio para poder guardar la fecha como string
-     * date da problemas porque recoge nulo
+     * 'date' da problemas porque recoge nulo
      */
     val date: String,
     val customerModel: CustomerModel,

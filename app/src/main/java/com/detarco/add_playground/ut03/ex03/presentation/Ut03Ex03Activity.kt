@@ -4,8 +4,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import com.detarco.add_playground.R
-import com.detarco.add_playground.ut03.ex03.data.local.db.AlertDbLocalSource
-import com.detarco.add_playground.ut03.ex03.data.local.files.AlertFileLocalSource
+import com.detarco.add_playground.ut03.ex03_b.ex03.data.local.db.AlertDbLocalSource
+import com.detarco.add_playground.ut03.ex03_b.ex03.presentation.Ut03Ex03Activity
+import com.detarco.add_playground.ut03.ex03_b.ex03.presentation.Ut03Ex03ViewModel
 
 
 class Ut03Ex03Activity : AppCompatActivity() {

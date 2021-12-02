@@ -1,11 +1,10 @@
 package com.detarco.add_playground.ut03.ex03.data.local.files
 
 import android.content.ContentValues.TAG
-import android.content.Context
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.detarco.add_playground.ut03.ex03.data.local.AlertLocalSource
-import com.detarco.add_playground.ut03.ex03.domain.AlertModel
+import com.detarco.add_playground.ut03.ex03_b.ex03.data.local.AlertLocalSource
+import com.detarco.add_playground.ut03.ex03_v2.domain.AlertModel
 import java.io.File
 
 class AlertFileLocalSource(

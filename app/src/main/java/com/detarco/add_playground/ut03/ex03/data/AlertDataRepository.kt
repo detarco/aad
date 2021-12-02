@@ -1,9 +1,9 @@
 package com.detarco.add_playground.ut03.ex03.data
 
-import com.detarco.add_playground.ut03.ex03.data.local.AlertLocalSource
-import com.detarco.add_playground.ut03.ex03.data.remote.AlertRemoteSource
-import com.detarco.add_playground.ut03.ex03.domain.AlertModel
-import com.detarco.add_playground.ut03.ex03.domain.AlertRepository
+import com.detarco.add_playground.ut03.ex03_b.ex03.data.local.AlertLocalSource
+import com.detarco.add_playground.ut03.ex03_b.ex03.data.remote.AlertRemoteSource
+import com.detarco.add_playground.ut03.ex03_v2.domain.AlertModel
+import com.detarco.add_playground.ut03.ex03_b.ex03.domain.AlertRepository
 
 class AlertDataRepository(
     private val localSource: AlertLocalSource,

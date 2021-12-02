@@ -1,5 +1,7 @@
 package com.detarco.add_playground.ut03.ex03.domain
 
+import com.detarco.add_playground.ut03.ex03_v2.domain.FileModel
+
 data class AlertModel(
     val id: String,
     val title: String,

@@ -1,10 +1,9 @@
 package com.detarco.add_playground.ut03.ex03.data.local.mem
 
-import android.util.Log
-import com.detarco.add_playground.ut03.ex03.data.local.AlertLocalSource
-import com.detarco.add_playground.ut03.ex03.domain.AlertModel
+import com.detarco.add_playground.ut03.ex03_b.ex03.data.local.AlertLocalSource
+import com.detarco.add_playground.ut03.ex03_v2.domain.AlertModel
 
-class AlertFileLocalSource : AlertLocalSource{
+class AlertFileLocalSource : AlertLocalSource {
 
     private val dataStorage = mutableListOf<AlertModel>()
 

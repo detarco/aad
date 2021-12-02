@@ -1,7 +1,7 @@
 package com.detarco.add_playground.ut03.ex03.presentation
 
-import com.detarco.add_playground.ut03.ex03.domain.GetAlertsUseCase
-import com.detarco.add_playground.ut03.ex03.domain.FindAlertUseCase
+import com.detarco.add_playground.ut03.ex03_v2.domain.GetAlertsUseCase
+import com.detarco.add_playground.ut03.ex03_v2.domain.FindAlertUseCase
 import androidx.lifecycle.ViewModel
 
 class Ut03Ex03ViewModel(private val getAlertsUseCase: GetAlertsUseCase,

@@ -37,7 +37,7 @@
             android:name=".ut03.ex02.presentation.Ut03Ex02Activity"
             android:exported="true" />
         <activity
-            android:name=".ut03.ex03.presentation.Ut03Ex03Activity"
+            android:name=".ut03.ex03_b.ex03.presentation.Ut03Ex03Activity"
             android:exported="true" />
         <activity
             android:name=".ut01.ex02.Ut01Ex02"

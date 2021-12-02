@@ -12,7 +12,7 @@ class Ut03Ex04Activity : AppCompatActivity() {
 
     private val TAG = Ut03Ex04Activity::class.java.simpleName
 
-    private val repository : CustomerRepository by lazy{
+    private val customerRepository : CustomerRepository by lazy{
         CustomerDataRepository(CustomerDBLocalSource(applicationContext))
     }
 
@@ -29,7 +29,7 @@ class Ut03Ex04Activity : AppCompatActivity() {
 
     private fun executeQuery(){
         Thread{
-            repository.apply {
+            customerRepository.apply {
                 this.saveCustomer(
                     CustomerModel(
                         1,
@@ -38,7 +38,7 @@ class Ut03Ex04Activity : AppCompatActivity() {
                     )
                 )
             }
-            repository.fetchAllCustomers()
+            customerRepository.fetchAllCustomers()
         }.start()
     }
 }

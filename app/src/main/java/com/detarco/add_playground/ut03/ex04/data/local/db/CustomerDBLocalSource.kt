@@ -18,11 +18,14 @@ class CustomerDBLocalSource(private val appContext: Context) : CustomerLocalSour
         db.customerDao().insert(CustomerEntity.toEntity(customer))
     }
 
+    /**
+     * Guarda una lista, no pedido en el ejercicio
     override  fun save(customers: List<CustomerModel>) {
         customers.forEach { customerModel ->
             save(customerModel)
         }
     }
+    */
 
     override  fun update(customerId: Int): CustomerModel? {
 

@@ -1,6 +1,6 @@
 package com.detarco.add_playground.ut03.ex03.app.api
 
-import com.detarco.add_playground.ut03.ex03.data.remote.AlertApiModel
+import com.detarco.add_playground.ut03.ex03_b.ex03.data.remote.AlertApiModel
 
 interface ApiClient {
     fun getAlerts(): List<AlertApiModel>

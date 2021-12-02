@@ -15,6 +15,5 @@ interface CustomerLocalSource {
     fun findAll(): List<CustomerModel>
 
     fun findById(customerId: Int): CustomerModel?
-
-    fun save(customers: List<CustomerModel>)
+    
 }

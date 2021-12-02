@@ -1,6 +1,6 @@
 package com.detarco.add_playground.ut03.ex03.data.remote
 
-import com.detarco.add_playground.ut03.ex03.domain.AlertModel
+import com.detarco.add_playground.ut03.ex03_v2.domain.AlertModel
 
 data class AlertApiModel(
     val alert_id: String,
