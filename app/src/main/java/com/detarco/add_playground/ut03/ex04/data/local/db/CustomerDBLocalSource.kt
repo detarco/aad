@@ -2,16 +2,23 @@ package com.detarco.add_playground.ut03.ex04.data.local.db
 
 import android.content.Context
 import com.detarco.add_playground.ut03.ex04.app.Ut03Ex04DataBase
-import com.detarco.add_playground.ut03.ex04.data.local.CustomerLocalSource
 import com.detarco.add_playground.ut03.ex04.data.local.db.entity.CustomerEntity
 import com.detarco.add_playground.ut03.ex04.domain.CustomerModel
+import com.detarco.add_playground.ut03.ex04.domain.repository.CustomerRepository
 
-class CustomerDBLocalSource(private val appContext: Context) : CustomerLocalSource {
+class CustomerDBLocalSource(private val appContext: Context) : CustomerRepository {
 
     private val db: Ut03Ex04DataBase by lazy {
 
         Ut03Ex04DataBase.getInstance(appContext)
 
+    }
+
+    init {
+        Thread {
+            db.clearAllTables()
+        }.start()
+        Thread.sleep(1000)
     }
 
     override  fun save(customer: CustomerModel) {
@@ -24,9 +31,9 @@ class CustomerDBLocalSource(private val appContext: Context) : CustomerLocalSour
         }
     }
 
-    override  fun update(customerId: Int): CustomerModel? {
+    override  fun update(customerId: Int): CustomerModel {
 
-        val updateCus = db.customerDao().findById(customerId)?.toModel()
+        val updateCus = db.customerDao().findById(customerId).toModel()
 
         return updateCus.also {
             db.customerDao().insert(CustomerEntity.toEntity(it))
@@ -35,9 +42,9 @@ class CustomerDBLocalSource(private val appContext: Context) : CustomerLocalSour
         //return updateCus
     }
 
-    override  fun delete(customerId: Int): CustomerModel? {
+    override  fun delete(customerId: Int): CustomerModel {
 
-        val delCus = db.customerDao().findById(customerId)?.toModel()
+        val delCus = db.customerDao().findById(customerId).toModel()
 
         return delCus.apply {
             db.customerDao().delete()
@@ -52,8 +59,8 @@ class CustomerDBLocalSource(private val appContext: Context) : CustomerLocalSour
         return customer.map { element -> element.toModel() }
     }
 
-    override  fun findById(customerId: Int): CustomerModel? {
-        return db.customerDao().findById(customerId)?.toModel()
+    override  fun findById(customerId: Int): CustomerModel {
+        return db.customerDao().findById(customerId).toModel()
     }
 
 

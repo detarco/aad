@@ -1,7 +1,5 @@
 package com.detarco.add_playground.ut03.ex04.domain
 
-import java.sql.Date
-
 data class CustomerModel(
     val id: Int,
     val name: String,
