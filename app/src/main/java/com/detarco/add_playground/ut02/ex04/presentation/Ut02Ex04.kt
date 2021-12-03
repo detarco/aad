@@ -28,6 +28,7 @@ class Ut02Ex04 : AppCompatActivity() {
     private fun saveCustomers(){
         val customerDataSource = CustomerSharPrefLocalSource(this, GsonSerializer(Gson()))
         customerDataSource.save(customers)
+                //Log.d(TAG, "$customers")
         /**
         val customerList = customerDataSource.fetch()
         customerList.map {
@@ -38,6 +39,7 @@ class Ut02Ex04 : AppCompatActivity() {
     private fun saveInvoices(){
         val invoiceDataSource = InvoiceSharPrefLocalSource(this, GsonSerializer(Gson()))
         invoiceDataSource.save(invoices)
+        //Log.d(TAG, "$invoices")
         /**
         val invoiceList = invoiceDataSource.fetch()
         invoiceList.map {
