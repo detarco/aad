@@ -1,35 +1,51 @@
 package com.detarco.add_playground.ut02.ex04.data
 
 import android.content.Context
-import com.detarco.add_playground.ut02.ex04.domain.CustomerModel
+import androidx.security.crypto.EncryptedSharedPreferences
+import androidx.security.crypto.MasterKey
+import com.detarco.add_playground.R
 import com.detarco.add_playground.commons.serializer.GsonSerializer
+import com.detarco.add_playground.ut02.ex04.domain.CustomerModel
 
 /**
  * Clase para persistir información en SharedPreferences Encriptado
  */
 class CustomerSharPrefLocalSource(
-    private val context: Context,
+    context: Context,
     private val serializer: GsonSerializer
     ) {
 
-    private val nameXmlFile = "ut02_ex02_customers"
-    private val sharedPref = context.getSharedPreferences(nameXmlFile, Context.MODE_PRIVATE)
-
+    private val masterKey = MasterKey.Builder(context)
+        .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+        .build()
+    private val encryptSharPref = EncryptedSharedPreferences(
+        context,
+        context.getString(R.string.preference_file_exercise04),
+        masterKey,
+        EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+        EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+    )
 
     /**
      * Función que me permite guardar un cliente en un SharedPreferences.
      */
     fun save(customer: CustomerModel) {
-        saveCustomerInXml(customer)
+        val edit = encryptSharPref.edit()
+        edit.putString(
+            customer.id.toString(),
+            serializer.toJson(customer, CustomerModel::class.java)
+        )
+        edit.apply()
     }
 
     /**
      * Función que me permite guardar un listado de clientes en un SharedPreferences.
      */
     fun save(customers: List<CustomerModel>) {
+        clean()
         customers.map {
             customerModel ->
-            saveCustomerInXml(customerModel)
+            save(customerModel)
         }
     }
 
@@ -38,54 +54,53 @@ class CustomerSharPrefLocalSource(
      * Se puede modificar cualquier dato excepto el id del cliente.
      */
     fun update(customer: CustomerModel) {
-        //TODO
+        if (encryptSharPref.contains(customer.id.toString())){
+            remove(customer.id)
+        }
+        encryptSharPref.edit()
+            .putString(
+                customer.id.toString(),
+                serializer.toJson(customer, CustomerModel::class.java)
+            )
+            .apply()
     }
 
     /**
      * Función que me permite eliminar un cliente de un SharedPreferences.
      */
     fun remove(customerId: Int) {
-        val edit = sharedPref.edit()
-        edit?.clear()
-        edit?.commit()
+        if (encryptSharPref.contains(customerId.toString())){
+            val edit = encryptSharPref.edit()
+            edit.remove(customerId.toString())
+            edit.apply()
+        }
+    }
+
+    private fun clean(){
+        val edit = encryptSharPref.edit()
+        encryptSharPref.all.map {
+            edit.remove(it.key)
+        }
+        edit.apply()
     }
 
     /**
      * Función que me permite obtener un listado de todos los clientes almacenados en un SharedPreferences.
      */
     fun fetch(): List<CustomerModel> {
-        val customers: MutableList<CustomerModel> = mutableListOf()
-
-        customers.map {
-            line->
-            val customerModel = serializer.fromJson(line, CustomerModel::class.java)
+        val customerList: MutableList<CustomerModel> = mutableListOf()
+        encryptSharPref.all.map{
+            customerList.add(it.value as CustomerModel)
         }
-        fetchCustomerInXml()
-        return emptyList()
+        return customerList
     }
 
     fun findById(customerId: Int): CustomerModel? {
 
-        return fetchCustomerInXml(customerId.toString(), CustomerModel::class.java)
-    }
-
-    private fun getCustomerXml(){
-
-    }
-
-    private fun saveCustomerInXml(customerModel: CustomerModel) {
-        val edit = sharedPref.edit()
-        edit?.putString(customerModel.id.toString() ,serializer.toJson(customerModel, CustomerModel::class.java))
-        edit?.apply()
-    }
-
-    private fun fetchCustomerInXml(customerId: String, typeClass: Class<CustomerModel>): CustomerModel? {
-        val jsonModel = sharedPref.getString(customerId, "{}")
-        return if (jsonModel != null) {
-            serializer.fromJson(jsonModel, typeClass)
-        } else {
-            null
-        }
+        return encryptSharPref.getString(customerId.toString(), "example ")
+            ?.let {
+                serializer.fromJson(it, CustomerModel::class.java)
+            }
     }
 
 }
