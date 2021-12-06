@@ -14,4 +14,5 @@
     <string name="action_sharpref">Repositorio SharedPreferences</string>
     <string name="preference_file_exercise02">ut02_exercise02</string>
     <string name="ut03_preference_file_exercise03">ut03_exercise03</string>
+    <string name="ut03_preference_file_exercise06">ut03_ex06_tapas</string>
 </resources>
