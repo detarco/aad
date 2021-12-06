@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatEditText
-import com.detarco.add_playground.ut01.DataStorageType
+import com.detarco.add_playground.ut01.ex01.DataStorageType
 import java.io.File
 
 class MainActivity : AppCompatActivity() {
