@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ut02.exercise02.Exercise02Activity">
+    tools:context=".ut02.ex02.Exercise02Activity">
 
     <Button
         android:id="@+id/action_repository_file"

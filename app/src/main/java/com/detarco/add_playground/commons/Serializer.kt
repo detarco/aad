@@ -1,6 +1,6 @@
 package com.detarco.add_playground.commons
 
-import com.detarco.add_playground.ut02.exercise02.LocalModel
+import com.detarco.add_playground.ut02.ex02.LocalModel
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type

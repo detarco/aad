@@ -3,7 +3,7 @@ package com.detarco.add_playground.ut03.ex02.data.local.dao
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import com.detarco.add_playground.ut03.ex02.data.PetEntity
+import com.detarco.add_playground.ut03.ex02.data.local.entity.PetEntity
 
 @Dao
 interface PetDao {

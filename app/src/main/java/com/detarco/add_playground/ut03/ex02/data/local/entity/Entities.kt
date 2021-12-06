@@ -1,4 +1,4 @@
-package com.detarco.add_playground.ut03.ex02.data
+package com.detarco.add_playground.ut03.ex02.data.local.entity
 
 import androidx.room.*
 import com.detarco.add_playground.ut03.ex02.domain.CarModel
@@ -103,7 +103,7 @@ data class PersonJobEntity(
 ) {
     companion object {
         fun toEntity(personId: Int, jobIds: List<Int>) =
-            jobIds.map{ jobId -> PersonJobEntity(personId, jobId)}
+            jobIds.map{ jobId -> PersonJobEntity(personId, jobId) }
     }
 }
 
