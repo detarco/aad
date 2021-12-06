@@ -1,6 +1,6 @@
 package com.detarco.add_playground.commons
 
-import com.detarco.add_playground.ut02.exercise02.TapaLocalModel
+import com.detarco.add_playground.ut02.exercise02.LocalModel
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
@@ -19,7 +19,7 @@ interface Serializer<T> {
 class GsonSerializer<T> : Serializer<T> {
 
     private val gson = Gson()
-    private val types: Type = TypeToken.getParameterized(TapaLocalModel::class.java).type
+    private val types: Type = TypeToken.getParameterized(LocalModel::class.java).type
 
     override fun toJson(model: T): String =
         gson.toJson(model, types)
