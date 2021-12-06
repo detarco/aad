@@ -12,6 +12,42 @@
         <activity
             android:name=".MainActivity"
             android:exported="true">
+
+            <!--
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            -->
+        </activity>
+        <activity
+            android:name=".ut02.SharedPreferencesActivity"
+            android:exported="true">
+
+        </activity>
+        <activity
+            android:name=".ut02.exercise02.Exercise02Activity"
+            android:exported="true">
+
+        </activity>
+        <activity
+            android:name=".ut02.DatabaseActivity"
+            android:exported="true">
+
+        </activity>
+        <activity
+            android:name=".ut03.ex02.presentation.Ut03Ex02Activity"
+            android:exported="true">
+
+        </activity>
+        <activity
+            android:name=".ut03.ex03.presentation.Ut03Ex03Activity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".ut01.ex02.Ut01Ex02"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

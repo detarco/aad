@@ -1,12 +1,8 @@
-package com.detarco.add_playground.ut_01
+package com.detarco.add_playground.ut01.ex01
 
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import java.io.File
-import kotlin.io.path.Path
-import kotlin.io.path.createDirectory
-import kotlin.io.path.deleteIfExists
-import kotlin.io.path.exists
 
 //
 
@@ -142,6 +138,15 @@ class FilePlayGround(private val activity:AppCompatActivity) {
         val file = File(activity.filesDir.canonicalFile, "/docs/aad.txt")
             file.writeText("Hola!!")
             //file.createNewFile
+    }
+
+    fun listFilesInFolder(){
+        val file = File(activity.filesDir, "/documents")
+        val files = file.list()
+        files.forEach {
+            Log.d("@dev", "File: $it")
+        }
+
     }
 
 
