@@ -1,7 +1,6 @@
 package com.detarco.add_playground.ut01.ex02
 
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import com.detarco.add_playground.commons.serializer.GsonSerializer
 import java.io.File
 
@@ -12,6 +11,10 @@ class CustomerFileLocalSource(
     private val context: Context,
     private val serializer: GsonSerializer
 ) {
+
+
+    //private val file: Ut03Ex03ViewModel by lazy
+
 
     /**
      * Función que me permite guardar un cliente en un fichero.
@@ -84,6 +87,12 @@ class CustomerFileLocalSource(
             null
         }else
             serializer.fromJson(file.readText(), CustomerModel::class.java)
+
+        /**
+         * val customers = fetch()
+         * return customers.firstOrNull{item -> item.id == customerId}
+         */
+
     }
 
     fun deleteFiles(){

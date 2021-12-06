@@ -1,4 +1,4 @@
-package com.detarco.add_playground.ut02.exercise02
+package com.detarco.add_playground.ut02.ex02
 
 import android.os.Bundle
 import android.util.Log
