@@ -3,14 +3,14 @@ package com.detarco.add_playground.ut03.ex06.data.local.xml
 import android.content.Context
 import com.detarco.add_playground.R
 import com.detarco.add_playground.commons.serializer.GsonSerializer
-import com.detarco.add_playground.ut03.ex06.data.local.LocalDataSource
+import com.detarco.add_playground.ut03.ex06.data.local.TapaLocalSource
 import com.detarco.add_playground.ut03.ex06.domain.Failure
 import com.detarco.add_playground.ut03.ex06.domain.TapaModel
 
 class TapaXmlLocalSource(
     context: Context,
     private val serializer: GsonSerializer
-): LocalDataSource{
+): TapaLocalSource{
 
     private val sharPref = context.getSharedPreferences(
         context.getString(R.string.ut03_preference_file_exercise03),

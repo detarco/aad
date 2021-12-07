@@ -1,14 +1,13 @@
 package com.detarco.add_playground.ut03.ex06.data
 
-import com.detarco.add_playground.ut03.ex06.data.local.LocalDataSource
+import com.detarco.add_playground.ut03.ex06.data.local.TapaLocalSource
 import com.detarco.add_playground.ut03.ex06.data.remote.RemoteDataSource
-import com.detarco.add_playground.ut03.ex06.domain.Failure
 import com.detarco.add_playground.ut03.ex06.domain.TapaModel
 import com.detarco.add_playground.ut03.ex06.domain.TapaRepository
 
 class TapaDataRepository(
     private val remoteDataSource: RemoteDataSource,
-    private val localDataSource: LocalDataSource
+    private val localDataSource: TapaLocalSource
     ) : TapaRepository {
 
     /**

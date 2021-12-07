@@ -14,4 +14,6 @@ data class TapaModel(val id: String,
                      val urlMainPhoto: String,
                      val barModel: BarModel)
 
-data class BarModel(val id: String, val name: String, val address: String)
+data class BarModel(val id: String,
+                    val name: String,
+                    val address: String)

@@ -2,7 +2,7 @@ package com.detarco.add_playground.ut03.ex06.data.local.files
 
 import android.content.Context
 import com.detarco.add_playground.commons.serializer.GsonSerializer
-import com.detarco.add_playground.ut03.ex06.data.local.LocalDataSource
+import com.detarco.add_playground.ut03.ex06.data.local.TapaLocalSource
 import com.detarco.add_playground.ut03.ex06.domain.Failure
 import com.detarco.add_playground.ut03.ex06.domain.TapaModel
 import java.io.File
@@ -13,7 +13,7 @@ import java.io.File
 class TapaLocalSource(
     val context: Context,
     val serializer: GsonSerializer
-    ): LocalDataSource {
+    ): TapaLocalSource {
 
     private lateinit var tapaFile: File
 

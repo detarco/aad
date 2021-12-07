@@ -4,8 +4,7 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import com.detarco.add_playground.commons.serializer.GsonSerializer
 import com.detarco.add_playground.ut03.ex06.data.TapaDataRepository
-import com.detarco.add_playground.ut03.ex06.data.local.LocalDataSource
-import com.detarco.add_playground.ut03.ex06.data.local.files.TapaLocalSource
+import com.detarco.add_playground.ut03.ex06.data.local.TapaLocalSource
 import com.detarco.add_playground.ut03.ex06.data.remote.MockDataSource
 import com.detarco.add_playground.ut03.ex06.domain.GetTapaUseCase
 import com.detarco.add_playground.ut03.ex06.domain.GetTapasUseCase
@@ -17,7 +16,7 @@ class Ut03Ex06ViewModel : ViewModel() {
         val useCase = GetTapasUseCase(
             TapaDataRepository(
                 MockDataSource(),
-                LocalDataSource
+                TapaLocalSource
             )
         )
         val result = useCase.execute()

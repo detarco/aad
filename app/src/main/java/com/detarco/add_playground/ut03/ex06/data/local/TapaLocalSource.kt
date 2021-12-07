@@ -2,7 +2,7 @@ package com.detarco.add_playground.ut03.ex06.data.local
 
 import com.detarco.add_playground.ut03.ex06.domain.TapaModel
 
-interface LocalDataSource {
+interface TapaLocalSource {
 
     fun getTapas(): Result<List<TapaModel>>
 

@@ -7,6 +7,7 @@ sealed class Failure : Throwable() {
 
     object FileError : Failure()
     object XmlError : Failure()
+    object DbError : Failure()
     object DomainError : Failure()
 
     /** * Extend this class for feature specific failures.*/
