@@ -10,7 +10,7 @@ import java.io.File
 /**
  * Clase para persistir información en ficheros.
  */
-class TapaLocalSource(
+class TapaFileLocalSource(
     val context: Context,
     val serializer: GsonSerializer
     ): TapaLocalSource {
@@ -26,29 +26,37 @@ class TapaLocalSource(
         }
     }
 
-    fun update(tapa: TapaModel): Result<Boolean> {
-        return getTapas().mapCatching {
-            val tapas = it.toMutableList()
-            val indexTapa = tapas.indexOfFirst { item -> item.id == tapa.id }
-            if (indexTapa >= 0) {
-                tapas[indexTapa] = tapa
-            } else {
-                tapas.add(tapa)
+    override fun updateTapa(tapaModel: TapaModel): Result<Boolean> {
+        return try{
+            getTapas().mapCatching {
+                val tapaList = it.toMutableList()
+                val indexTapa = tapaList.indexOfFirst { item -> item.id == tapaModel.id }
+                if (indexTapa >= 0) {
+                    tapaList[indexTapa] = tapaModel
+                } else {
+                    tapaList.add(tapaModel)
+                }
+                save(tapaList)
+                true
             }
-            save(tapas)
-            true
+        }catch (failure: Exception){
+            Result.failure(Failure.FileError)
         }
     }
 
-    fun remove(tapaId: String): Result<Boolean> {
-        return getTapas().mapCatching {
-            val tapas = it.toMutableList()
-            val indexCustomer = tapas.indexOfFirst { item -> item.id == tapaId }
-            if (indexCustomer >= 0) {
-                tapas.removeAt(indexCustomer)
+    override fun removeTapa(tapaId: String): Result<Boolean> {
+        return try {
+            getTapas().mapCatching {
+                val tapaList = it.toMutableList()
+                val indexTapa = tapaList.indexOfFirst { item -> item.id == tapaId }
+                if (indexTapa >= 0) {
+                    tapaList.removeAt(indexTapa)
+                }
+                save(tapaList)
+                true
             }
-            save(tapas)
-            true
+        }catch (failure: Exception){
+            Result.failure(Failure.FileError)
         }
     }
 
@@ -100,16 +108,6 @@ class TapaLocalSource(
         }
     }
 
-    fun deleteFiles(): Result<Boolean> {
-        return try {
-            getFile().mapCatching {
-                it.delete()
-                true
-            }
-        } catch (failure: Exception) {
-            Result.failure(Failure.FileError)
-        }
-    }
 
     private fun buildFile(): Result<File> {
         return try {
@@ -130,6 +128,17 @@ class TapaLocalSource(
             }
             Result.success(tapaFile)
         } catch (ex: Exception) {
+            Result.failure(Failure.FileError)
+        }
+    }
+
+    fun deleteFiles(): Result<Boolean> {
+        return try {
+            getFile().mapCatching {
+                it.delete()
+                true
+            }
+        } catch (failure: Exception) {
             Result.failure(Failure.FileError)
         }
     }

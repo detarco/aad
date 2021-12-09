@@ -3,7 +3,6 @@ package com.detarco.add_playground.ut03.ex06.data.local.db
 import android.content.Context
 import com.detarco.add_playground.ut03.ex06.app.db.Ut03Ex06Database
 import com.detarco.add_playground.ut03.ex06.data.local.TapaLocalSource
-import com.detarco.add_playground.ut03.ex06.data.local.db.entities.BarEntity
 import com.detarco.add_playground.ut03.ex06.domain.Failure
 import com.detarco.add_playground.ut03.ex06.domain.TapaModel
 
@@ -19,15 +18,8 @@ class TapaDBLocalSource (
 
         return try {
             tapas.mapCatching {
-                it.map {
-                    it.toModel(
-                        /**
-                         * Bar Entity problem
-                         */
-                        //BARENTITY???????????????
-                    )
-                }
-                Result.success(it.map { it.toModel(barEntity = ) })
+                element ->
+                element
             }
         } catch (failure: Exception) {
             Result.failure(Failure.DbError)
@@ -36,15 +28,83 @@ class TapaDBLocalSource (
     }
 
     override fun getTapaById(tapaId: String): Result<TapaModel> {
-        TODO("Not yet implemented")
+        return try{
+            db.tapaDao().findTapaByID(tapaId)
+        }catch (failure: Exception){
+            Result.failure(Failure.DbError)
+        }
     }
 
     override fun save(tapaModel: TapaModel): Result<Boolean> {
-        val tapa =   db.tapaDao().saveTapa(tapaModel)
+        return getTapas().mapCatching {
+            db.tapaDao().saveTapa(tapaModel)
+            true
+        }
     }
 
     override fun save(tapaModels: List<TapaModel>): Result<Boolean> {
-        TODO("Not yet implemented")
+        return try{
+            clearDataBase()
+            tapaModels.map{
+                element ->
+                db.tapaDao().saveTapa(element)
+            }
+            Result.success(true)
+        } catch(failure: Exception){
+            Result.failure(Failure.DbError)
+        }
     }
+
+    override fun updateTapa(tapaModel: TapaModel): Result<Boolean> {
+        return try{
+            getTapas().mapCatching {
+
+                val tapaList = it.toMutableList()
+                val indexTapa = tapaList.indexOfFirst {
+                        item ->
+                    item.id == tapaModel.id
+                }
+                if( indexTapa >= 0){
+                    tapaList[indexTapa] = tapaModel
+                }else{
+                    db.tapaDao().saveTapa(tapaModel)
+                }
+                db.tapaDao().saveTapa(tapaModel)
+                true
+            }
+        }catch (failure: Exception){
+            Result.failure(Failure.DbError)
+        }
+    }
+
+    override fun removeTapa(tapaId: String): Result<Boolean> {
+        return try {
+            getTapas().mapCatching {
+                val tapaList= it.toMutableList()
+                val indexTapa = tapaList.indexOfFirst {
+                        item ->
+                    item.id == tapaId
+                }
+                if (indexTapa >= 0){
+                    tapaList.removeAt(indexTapa)
+                }
+                save(tapaList)
+                true
+            }
+        }catch (failure: Exception){
+            Result.failure(Failure.DbError)
+        }
+    }
+
+    private fun clearDataBase(): Result<Boolean>{
+        return try{
+            db.clearAllTables()
+            Result.success(true)
+        } catch (failure: Exception){
+            Result.failure(Failure.DbError)
+        }
+    }
+
+
 
 }

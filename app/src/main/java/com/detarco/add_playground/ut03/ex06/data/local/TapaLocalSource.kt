@@ -12,4 +12,8 @@ interface TapaLocalSource {
 
     fun save(tapaModels: List<TapaModel>): Result<Boolean>
 
+    fun updateTapa(tapaModel: TapaModel): Result<Boolean>
+
+    fun removeTapa(tapaId: String): Result<Boolean>
+
 }

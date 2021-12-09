@@ -48,7 +48,6 @@ class TapaXmlLocalSource(
     }
 
     override fun save(tapaModels: List<TapaModel>): Result<Boolean> {
-
         return try {
             clearXml()
             tapaModels.map {
@@ -59,7 +58,40 @@ class TapaXmlLocalSource(
         }catch (failure: Exception){
             Result.failure(Failure.XmlError)
         }
+    }
 
+    override fun updateTapa(tapaModel: TapaModel): Result<Boolean> {
+        return try{
+            getTapas().mapCatching {
+                val tapaList = it.toMutableList()
+                val indexTapa = tapaList.indexOfFirst { item -> item.id == tapaModel.id }
+                if (indexTapa >= 0) {
+                    tapaList[indexTapa] = tapaModel
+                } else {
+                    tapaList.add(tapaModel)
+                }
+                save(tapaList)
+                true
+            }
+        }catch (failure: Exception){
+            Result.failure(Failure.XmlError)
+        }
+    }
+
+    override fun removeTapa(tapaId: String): Result<Boolean> {
+        return try {
+            getTapas().mapCatching {
+                val tapaList = it.toMutableList()
+                val indexTapa = tapaList.indexOfFirst { item -> item.id == tapaId }
+                if (indexTapa >= 0) {
+                    tapaList.removeAt(indexTapa)
+                }
+                save(tapaList)
+                true
+            }
+        }catch (failure: Exception){
+            Result.failure(Failure.XmlError)
+        }
     }
 
     private fun clearXml(): Result<Boolean> {
