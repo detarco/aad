@@ -34,7 +34,8 @@ data class TapaEntity(
     @ColumnInfo(name = "name") val name: String,
     @ColumnInfo(name = "description") val description: String,
     @ColumnInfo(name = "price") val price: Double,
-    @ColumnInfo(name = "urlMainPhoto") val urlMainPhoto: String
+    @ColumnInfo(name = "urlMainPhoto") val urlMainPhoto: String,
+    @ColumnInfo(name = "bar_id") val barId: String
 ){
     fun toModel(
         barEntity: BarEntity
@@ -48,13 +49,15 @@ data class TapaEntity(
     )
 
     companion object{
-        fun toEntity(tapaModel:TapaModel) = TapaEntity(
-            tapaModel.id,
-            tapaModel.name,
-            tapaModel.description,
-            tapaModel.price,
-            tapaModel.urlMainPhoto
-        )
+        fun toEntity(tapaModel:TapaModel, barId: String) =
+            TapaEntity(
+                tapaModel.id,
+                tapaModel.name,
+                tapaModel.description,
+                tapaModel.price,
+                tapaModel.urlMainPhoto,
+                barId
+            )
     }
 }
 
@@ -62,31 +65,54 @@ data class TapaEntity(
 data class CompetitionEntity(
     @PrimaryKey @ColumnInfo(name = "id") val id: String,
     @ColumnInfo(name = "start") val start: String,
-    @ColumnInfo(name = "end") val end: String
-)
-
-/**
- * Relación no Entity
- */
-@Entity(
-    tableName = "bar_tapa",
-    primaryKeys = ["bar_id", "tapa_id"]
-)
-data class OneBarOneTapaEntity(
-    @ColumnInfo(name = "bar_id") val barId: String,
-    @ColumnInfo(name = "tapa_id") val tapaId: String
+    @ColumnInfo(name = "end") val end: String,
+    @ColumnInfo(name = "tapas_id") val tapasId: String//List<TapaModel>
 ){
-    companion object {
-        fun toEntity(barId: String, tapaId:String) =
-            OneBarOneTapaEntity(barId, tapaId)
+    fun toModel(
+        tapasEntity: List<TapaEntity>
+    )= CompetitionModel (
+        id,
+        start,
+        end,
+        tapasEntity.map { it.toModel() }.toMutableList()
+    )
+}
+
+@Entity(
+    tableName = "competition_tapa"
+            primaryKeys = ["competition_id", "tapa_id]
+)
+data class CompetitionTapaEntity(
+    @ColumnInfo(name = "competition_id") val competitionId : String,
+    @ColumnInfo(name = "tapa_id") val tapaIds: String
+){
+    companion object{
+        fun toEntity(competitionId: String, tapaIds: List<String>)=
+            tapaIds.map{tapaId -> CompetitionTapaEntity(competitionId, tapaId)}
     }
 }
 
-data class OneBarWithTapaCompetition(
-    @Embedded val competitionEntity: CompetitionEntity,
+data class BarAndTapa(
+    @Embedded val barEntity: BarEntity,
 
     @Relation(
-        parentColumn = "tapa_id",
-        entityColumn = "id"
-    ) val tapasEntities: List<OneBarOneTapaEntity>
+        parentColumn = "id",
+        entityColumn = "bar_id"
+    ) val tapaEntity: TapaEntity
 )
+
+data class TapaAndCompetition(
+    @Embedded val competitionEntity: CompetitionEntity
+
+    @Relation(
+        parentColumn = "id",
+        entityColumn = "id",
+        associateBy = Junction(
+            value = CompetitionTapaEntity::class,
+            parentColumn = "competition_id",
+            entityColumn = "tapa_id"
+        )
+    ) val tapaEntities: List<TapaEntity>
+){
+    fun toModel() = competitionEntity.toModel(tapaEntities)
+}
