@@ -9,7 +9,7 @@ class Ut03Ex06Activity : AppCompatActivity() {
 
     private val TAG = Ut03Ex06Activity::class.java.simpleName
 
-    val viewModel = Ut03Ex06ViewModel()
+    val viewModel = Ut03Ex06ViewModel(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

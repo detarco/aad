@@ -64,7 +64,11 @@ class TapaFileLocalSource(
      * Recupera una tapa por su ID
      */
     override fun getTapaById(tapaId: String): Result<TapaModel> {
-        return getTapas().mapCatching { it.first{ item -> item.id == tapaId } }
+        return try{
+            getTapas().mapCatching { it.first{ item -> item.id == tapaId } }
+        }catch (failure: Exception){
+            Result.failure(Failure.FileError)
+        }
     }
 
     override fun getTapas(): Result<List<TapaModel>> {

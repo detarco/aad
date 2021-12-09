@@ -1,10 +1,11 @@
 package com.detarco.add_playground.ut03.ex06.domain
 
-import java.util.*
-
 data class CompetitionModel(val id: String,
-                            val start: Date,
-                            val end: Date,
+                            /**
+                             * Cambio para poder usar string, mirar como guardar Date y LocalDate
+                             */
+                            val start: String,
+                            val end: String,
                             val tapaModels: List<TapaModel>)
 
 data class TapaModel(val id: String,

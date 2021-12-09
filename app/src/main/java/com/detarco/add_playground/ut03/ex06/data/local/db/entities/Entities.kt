@@ -3,7 +3,6 @@ package com.detarco.add_playground.ut03.ex06.data.local.db.entities
 import androidx.room.*
 import com.detarco.add_playground.ut03.ex06.domain.BarModel
 import com.detarco.add_playground.ut03.ex06.domain.TapaModel
-import java.sql.Date
 
 @Entity(tableName = "bares")
 data class BarEntity(
@@ -31,14 +30,16 @@ data class BarEntity(
 
 @Entity(tableName = "tapas")
 data class TapaEntity(
-    @PrimaryKey @ColumnInfo(name = "id") val tapaId: String,
+    @PrimaryKey @ColumnInfo(name = "id") val id: String,
     @ColumnInfo(name = "name") val name: String,
     @ColumnInfo(name = "description") val description: String,
     @ColumnInfo(name = "price") val price: Double,
     @ColumnInfo(name = "urlMainPhoto") val urlMainPhoto: String
 ){
-    fun toModel(barEntity: BarEntity)= TapaModel (
-        tapaId,
+    fun toModel(
+        barEntity: BarEntity
+    )= TapaModel (
+        id,
         name,
         description,
         price,
@@ -60,10 +61,13 @@ data class TapaEntity(
 @Entity(tableName = "competition")
 data class CompetitionEntity(
     @PrimaryKey @ColumnInfo(name = "id") val id: String,
-    @ColumnInfo(name = "start") val start: Date,
-    @ColumnInfo(name = "end") val end: Date
+    @ColumnInfo(name = "start") val start: String,
+    @ColumnInfo(name = "end") val end: String
 )
 
+/**
+ * Relación no Entity
+ */
 @Entity(
     tableName = "bar_tapa",
     primaryKeys = ["bar_id", "tapa_id"]

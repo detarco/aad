@@ -18,7 +18,7 @@ interface CompetitionDao {
 
     @Insert
     fun saveCompetition(
-        competition: CompetitionEntity,
-        tapas: List<OneBarOneTapaEntity>
+        competitionEntity: CompetitionEntity,
+        tapasEntities: List<OneBarOneTapaEntity>
     ):Result<Boolean>
 }
