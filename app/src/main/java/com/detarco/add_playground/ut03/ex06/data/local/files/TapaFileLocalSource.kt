@@ -15,14 +15,67 @@ class TapaFileLocalSource(
     val serializer: GsonSerializer
     ): TapaLocalSource {
 
-    private lateinit var tapaFile: File
+    private fun getFile(fileName: String): Result<File>{
+        return try{
+            val file = File(context.filesDir, fileName)
+            if (!file.exists()) {
+                file.createNewFile()
+            }
+            Result.success(file)
+        }catch (failure: Exception){
+            Result.failure(Failure.FileError)
+        }
+    }
 
     override fun save(tapaModel: TapaModel): Result<Boolean> {
-        return getTapas().mapCatching {
-            val tapas = it.toMutableList()
-            tapas.add(tapaModel)
-            save(tapas)
-            true
+        return try {
+            getFile(AAD_TAPA_FILENAME).mapCatching {
+                it.appendText(
+                    serializer.toJson(
+                    tapaModel, TapaModel::class.java
+                    ) + System.lineSeparator()
+                )
+            }
+            Result.success(true)
+        }catch (failure: Exception){
+            Result.failure(Failure.FileError)
+        }
+    }
+
+    override fun save(tapaModels: List<TapaModel>): Result<Boolean> {
+        return try {
+            clearFile()
+            tapaModels.map {
+                tapaModel ->
+                save(tapaModel)
+            }
+            Result.success(true)
+        } catch (failure: Exception) {
+            Result.failure(Failure.FileError)
+        }
+    }
+
+    override fun getTapas(): Result<List<TapaModel>> {
+        return try {
+            val tapaList: MutableList<TapaModel> = mutableListOf()
+            getFile(AAD_TAPA_FILENAME).mapCatching {
+                val lines = it.readLines()
+                lines.map { line ->
+                    val tapaModel = serializer.fromJson(line, TapaModel::class.java)
+                    tapaList.add(tapaModel)
+                }
+            }
+            Result.success(tapaList)
+        } catch (failure: Exception) {
+            Result.failure(Failure.FileError)
+        }
+    }
+
+    override fun getTapa(tapaId: String): Result<TapaModel> {
+        return try{
+            getTapas().mapCatching { it.first{ item -> item.id == tapaId } }
+        }catch (failure: Exception){
+            Result.failure(Failure.FileError)
         }
     }
 
@@ -60,50 +113,9 @@ class TapaFileLocalSource(
         }
     }
 
-    /**
-     * Recupera una tapa por su ID
-     */
-    override fun getTapaById(tapaId: String): Result<TapaModel> {
-        return try{
-            getTapas().mapCatching { it.first{ item -> item.id == tapaId } }
-        }catch (failure: Exception){
-            Result.failure(Failure.FileError)
-        }
-    }
-
-    override fun getTapas(): Result<List<TapaModel>> {
-        return try {
-            getFile().mapCatching {
-                val tapas: MutableList<TapaModel> = mutableListOf()
-                val lines = it.readLines()
-                lines.map { line ->
-                    val tapaModel = serializer.fromJson(line, TapaModel::class.java)
-                    tapas.add(tapaModel)
-                }
-                tapas
-            }
-        } catch (failure: Exception) {
-            Result.failure(Failure.FileError)
-        }
-    }
-
-    override fun save(tapaModels: List<TapaModel>): Result<Boolean> {
-        return try {
-            clearFile().mapCatching {
-                tapaModels.map { tapaModel ->
-                    tapaFile.appendText(serializer.toJson(tapaModel,
-                        TapaModel::class.java) + System.lineSeparator())
-                }
-                true
-            }
-        } catch (failure: Exception) {
-            Result.failure(Failure.FileError)
-        }
-    }
-
     private fun clearFile(): Result<Boolean> {
         return try {
-            getFile().mapCatching {
+            getFile(AAD_TAPA_FILENAME).mapCatching {
                 it.writeText("")
                 true
             }
@@ -112,33 +124,9 @@ class TapaFileLocalSource(
         }
     }
 
-
-    private fun buildFile(): Result<File> {
-        return try {
-            val file = File(context.filesDir, AAD_TAPA_FILENAME)
-            if (!file.exists()) {
-                file.createNewFile()
-            }
-            Result.success(file)
-        } catch (ex: FileSystemException) {
-            Result.failure(Failure.FileError)
-        }
-    }
-
-    private fun getFile(): Result<File> {
-        return try {
-            if (!this::tapaFile.isInitialized) {
-                buildFile()
-            }
-            Result.success(tapaFile)
-        } catch (ex: Exception) {
-            Result.failure(Failure.FileError)
-        }
-    }
-
     fun deleteFiles(): Result<Boolean> {
         return try {
-            getFile().mapCatching {
+            getFile(AAD_TAPA_FILENAME).mapCatching {
                 it.delete()
                 true
             }

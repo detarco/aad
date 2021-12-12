@@ -6,7 +6,7 @@ interface TapaLocalSource {
 
     fun getTapas(): Result<List<TapaModel>>
 
-    fun getTapaById(tapaId: String): Result<TapaModel>
+    fun getTapa(tapaId: String): Result<TapaModel>
 
     fun save(tapaModel: TapaModel): Result<Boolean>
 

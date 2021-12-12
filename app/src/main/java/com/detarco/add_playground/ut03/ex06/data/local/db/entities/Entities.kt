@@ -2,6 +2,7 @@ package com.detarco.add_playground.ut03.ex06.data.local.db.entities
 
 import androidx.room.*
 import com.detarco.add_playground.ut03.ex06.domain.BarModel
+import com.detarco.add_playground.ut03.ex06.domain.CompetitionModel
 import com.detarco.add_playground.ut03.ex06.domain.TapaModel
 
 @Entity(tableName = "bares")
@@ -35,7 +36,7 @@ data class TapaEntity(
     @ColumnInfo(name = "description") val description: String,
     @ColumnInfo(name = "price") val price: Double,
     @ColumnInfo(name = "urlMainPhoto") val urlMainPhoto: String,
-    @ColumnInfo(name = "bar_id") val barId: String
+    @ColumnInfo(name = "barId") val barId: String
 ){
     fun toModel(
         barEntity: BarEntity
@@ -69,18 +70,18 @@ data class CompetitionEntity(
     @ColumnInfo(name = "tapas_id") val tapasId: String//List<TapaModel>
 ){
     fun toModel(
-        tapasEntity: List<TapaEntity>
+        tapasEntity: List<TapaAndBar>
     )= CompetitionModel (
         id,
         start,
         end,
-        tapasEntity.map { it.toModel() }.toMutableList()
+        tapasEntity.map { it.tapaEntity.toModel(it.barEntity) }.toMutableList()
     )
 }
 
 @Entity(
-    tableName = "competition_tapa"
-            primaryKeys = ["competition_id", "tapa_id]
+    tableName = "competition_tapa",
+    primaryKeys = ["competition_id", "tapa_id"]
 )
 data class CompetitionTapaEntity(
     @ColumnInfo(name = "competition_id") val competitionId : String,
@@ -92,17 +93,28 @@ data class CompetitionTapaEntity(
     }
 }
 
-data class BarAndTapa(
-    @Embedded val barEntity: BarEntity,
+data class TapaAndBar(
+    @Embedded val tapaEntity: TapaEntity,
 
     @Relation(
         parentColumn = "id",
-        entityColumn = "bar_id"
-    ) val tapaEntity: TapaEntity
-)
+        entityColumn = "id"
+    ) val barEntity: BarEntity
+) {
+    fun toModel(): TapaModel =
+        TapaModel(
+            tapaEntity.id,
+            tapaEntity.name,
+            tapaEntity.description,
+            tapaEntity.price,
+            tapaEntity.urlMainPhoto,
+            barEntity.toModel()
+        )
+}
 
+/**
 data class TapaAndCompetition(
-    @Embedded val competitionEntity: CompetitionEntity
+    @Embedded val competitionEntity: CompetitionEntity,
 
     @Relation(
         parentColumn = "id",
@@ -112,7 +124,8 @@ data class TapaAndCompetition(
             parentColumn = "competition_id",
             entityColumn = "tapa_id"
         )
-    ) val tapaEntities: List<TapaEntity>
+    ) val barAndTapaEntities: List<TapaAndBar>
 ){
-    fun toModel() = competitionEntity.toModel(tapaEntities)
+    fun toModel() = competitionEntity.toModel(barAndTapaEntities)
 }
+*/

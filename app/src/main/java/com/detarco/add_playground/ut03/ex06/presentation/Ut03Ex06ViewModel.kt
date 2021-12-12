@@ -4,9 +4,9 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import com.detarco.add_playground.commons.serializer.GsonSerializer
 import com.detarco.add_playground.ut03.ex06.data.TapaDataRepository
-import com.detarco.add_playground.ut03.ex06.data.local.TapaLocalSource
 import com.detarco.add_playground.ut03.ex06.data.local.db.TapaDBLocalSource
 import com.detarco.add_playground.ut03.ex06.data.local.files.TapaFileLocalSource
+import com.detarco.add_playground.ut03.ex06.data.local.xml.TapaXmlLocalSource
 import com.detarco.add_playground.ut03.ex06.data.remote.MockDataSource
 import com.detarco.add_playground.ut03.ex06.domain.GetTapaUseCase
 import com.detarco.add_playground.ut03.ex06.domain.GetTapasUseCase
@@ -20,7 +20,9 @@ class Ut03Ex06ViewModel(
         val useCase = GetTapasUseCase(
             TapaDataRepository(
                 MockDataSource(),
-                TapaFileLocalSource(context, GsonSerializer(Gson()))
+                TapaFileLocalSource(context, GsonSerializer(Gson())) //Sólo guarda 1
+                //TapaXmlLocalSource(context, GsonSerializer(Gson())) //Funciona
+                //TapaDBLocalSource(context) //Funciona
             )
         )
         val result = useCase.execute()
@@ -31,7 +33,9 @@ class Ut03Ex06ViewModel(
         val useCase = GetTapaUseCase(
             TapaDataRepository(
                 MockDataSource(),
-                TapaFileLocalSource(context, GsonSerializer(Gson()))
+                TapaFileLocalSource(context, GsonSerializer(Gson())) //Sólo guarda 1
+                //TapaXmlLocalSource(context, GsonSerializer(Gson()))
+                //TapaDBLocalSource(context)
             )
         )
         val result = useCase.execute(tapaId)

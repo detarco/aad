@@ -15,16 +15,17 @@ class TapaDataRepository(
      * Se consulta en local, si existe un listado de tapas se devuelve, sino, se obtiene de remoto,
      * se guarda en local y se devuelve.
      */
+
     override fun fetchTapas(): Result<List<TapaModel>> {
-        val tapas = localDataSource.getTapas()
-        tapas.fold({
-            return tapas
+
+        localDataSource.getTapas().fold({
+            return localDataSource.getTapas()
         },
             {
             remoteDataSource.getTapas().mapCatching {
                 localDataSource.save(it)
             }
-                return tapas
+                return localDataSource.getTapas()
         })
 
     }
@@ -36,15 +37,13 @@ class TapaDataRepository(
      */
     override fun fetchTapa(tapaId: String): Result<TapaModel> {
 
-        val theTapa = localDataSource.getTapaById(tapaId)
-
-        theTapa.fold({
-            return theTapa
+        localDataSource.getTapa(tapaId).fold({
+            return localDataSource.getTapa(tapaId)
                      },{
                 remoteDataSource.getTapa(tapaId).mapCatching {
                     localDataSource.save(it)
                 }
-                return theTapa
+                return localDataSource.getTapa(tapaId)
             })
 
     }

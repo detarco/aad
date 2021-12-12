@@ -17,6 +17,30 @@ class TapaXmlLocalSource(
         Context.MODE_PRIVATE
     )
 
+    override fun save(tapaModel: TapaModel): Result<Boolean> {
+        return try {
+            val edit = sharPref.edit()
+            edit.putString(tapaModel.id, serializer.toJson(tapaModel, TapaModel::class.java))
+            edit.apply()
+            Result.success(true)
+        }catch (failure: Exception){
+            Result.failure(Failure.XmlError)
+        }
+    }
+
+    override fun save(tapaModels: List<TapaModel>): Result<Boolean> {
+        return try {
+            clearXml()
+            tapaModels.map {
+                    tapaModel ->
+                save(tapaModel)
+            }
+            Result.success(true)
+        }catch (failure: Exception){
+            Result.failure(Failure.XmlError)
+        }
+    }
+
     override fun getTapas(): Result<List<TapaModel>> {
         return try {
             val tapaList: MutableList<TapaModel> = mutableListOf()
@@ -29,35 +53,10 @@ class TapaXmlLocalSource(
         }
     }
 
-    override fun getTapaById(tapaId: String): Result<TapaModel> {
+    override fun getTapa(tapaId: String): Result<TapaModel> {
 
         return getTapas().mapCatching { it.first{ item -> item.id == tapaId } }
 
-    }
-
-    override fun save(tapaModel: TapaModel): Result<Boolean> {
-        return try {
-            val edit = sharPref.edit()
-            edit.putString(tapaModel.id, serializer.toJson(tapaModel, TapaModel::class.java))
-            edit.apply()
-            Result.success(true)
-        }catch (failure: Exception){
-            Result.failure(Failure.XmlError)
-        }
-
-    }
-
-    override fun save(tapaModels: List<TapaModel>): Result<Boolean> {
-        return try {
-            clearXml()
-            tapaModels.map {
-                tapaModel ->
-                save(tapaModel)
-            }
-            Result.success(true)
-        }catch (failure: Exception){
-            Result.failure(Failure.XmlError)
-        }
     }
 
     override fun updateTapa(tapaModel: TapaModel): Result<Boolean> {

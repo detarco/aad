@@ -9,18 +9,14 @@ import com.detarco.add_playground.ut03.ex06.domain.BarModel
 @Dao
 interface BarDao {
 
-    /**
-
     @Query("SELECT * FROM bares")
-    fun findAllBares(): Result<List<BarModel>>
+    fun findAllBares(): List<BarModel>
 
     @Query("SELECT * FROM bares WHERE id= :barId LIMIT 1")
-    fun findBarByID(barId:String): Result<BarModel>
-     */
+    fun findBarByID(barId:String): BarModel
+
 
     @Insert
-    fun save(barEntity: BarEntity)//: Result<Boolean>
+    fun save(barEntity: BarEntity)
 
-    @Insert
-    fun save(barEntities: List<BarEntity>)//: Result<Boolean>
 }

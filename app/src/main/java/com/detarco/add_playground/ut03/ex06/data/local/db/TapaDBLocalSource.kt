@@ -4,7 +4,7 @@ import android.content.Context
 import com.detarco.add_playground.ut03.ex06.app.db.Ut03Ex06Database
 import com.detarco.add_playground.ut03.ex06.data.local.TapaLocalSource
 import com.detarco.add_playground.ut03.ex06.data.local.db.entities.BarEntity
-import com.detarco.add_playground.ut03.ex06.domain.BarModel
+import com.detarco.add_playground.ut03.ex06.data.local.db.entities.TapaEntity
 import com.detarco.add_playground.ut03.ex06.domain.Failure
 import com.detarco.add_playground.ut03.ex06.domain.TapaModel
 
@@ -20,26 +20,20 @@ class TapaDBLocalSource(
 
         return try {
             Result.success(tapas.map {
-                it.toModel(
-                    BarEntity.toEntity(
-                        BarModel("", "", "")
-                    )
-                )
+                it.tapaEntity.toModel(it.barEntity)
             })
         } catch (failure: Exception) {
             Result.failure(Failure.DbError)
         }
     }
 
-    override fun getTapaById(tapaId: String): Result<TapaModel> {
-        val tapa = db.tapaDao().findTapaByID(tapaId)
-
+    override fun getTapa(tapaId: String): Result<TapaModel> {
         return try {
             val tapaEntity = db
                 .tapaDao()
-                .findAllTapas().first { it -> it.id == tapaId }
+                .findAllTapas().first { it.tapaEntity.id == tapaId }
 
-            Result.success(tapaEntity.toModel(tapaEntity.))
+            Result.success(tapaEntity.tapaEntity.toModel(tapaEntity.barEntity))
         } catch (failure: Exception) {
             Result.failure(Failure.DbError)
         }
@@ -47,7 +41,27 @@ class TapaDBLocalSource(
 
     override fun save(tapaModel: TapaModel): Result<Boolean> {
         return getTapas().mapCatching {
-            db.tapaDao().saveTapa(tapaModel)
+
+            val tapaEntity = TapaEntity(
+                tapaModel.id,
+                tapaModel.name,
+                tapaModel.description,
+                tapaModel.price,
+                tapaModel.urlMainPhoto,
+                tapaModel.barModel.id
+            )
+
+            val barEntity = BarEntity(
+                tapaModel.barModel.id,
+                tapaModel.barModel.name,
+                tapaModel.barModel.address
+            )
+
+            db.tapaDao()
+                .saveTapa(
+                    tapaEntity,
+                    barEntity
+                )
             true
         }
     }
@@ -56,7 +70,7 @@ class TapaDBLocalSource(
         return try {
             clearDataBase()
             tapaModels.map { element ->
-                db.tapaDao().saveTapa(element)
+                save(element)
             }
             Result.success(true)
         } catch (failure: Exception) {
@@ -75,9 +89,9 @@ class TapaDBLocalSource(
                 if (indexTapa >= 0) {
                     tapaList[indexTapa] = tapaModel
                 } else {
-                    db.tapaDao().saveTapa(tapaModel)
+                    save(tapaModel)
                 }
-                db.tapaDao().saveTapa(tapaModel)
+                    save(tapaModel)
                 true
             }
         } catch (failure: Exception) {
