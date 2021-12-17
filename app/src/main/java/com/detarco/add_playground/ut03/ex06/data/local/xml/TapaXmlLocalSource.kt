@@ -10,10 +10,10 @@ import com.detarco.add_playground.ut03.ex06.domain.TapaModel
 class TapaXmlLocalSource(
     context: Context,
     private val serializer: GsonSerializer
-): TapaLocalSource{
+) : TapaLocalSource {
 
     private val sharPref = context.getSharedPreferences(
-        context.getString(R.string.ut03_preference_file_exercise03),
+        context.getString(R.string.ut03_preference_file_exercise06),
         Context.MODE_PRIVATE
     )
 
@@ -23,7 +23,7 @@ class TapaXmlLocalSource(
             edit.putString(tapaModel.id, serializer.toJson(tapaModel, TapaModel::class.java))
             edit.apply()
             Result.success(true)
-        }catch (failure: Exception){
+        } catch (failure: Exception) {
             Result.failure(Failure.XmlError)
         }
     }
@@ -31,12 +31,11 @@ class TapaXmlLocalSource(
     override fun save(tapaModels: List<TapaModel>): Result<Boolean> {
         return try {
             clearXml()
-            tapaModels.map {
-                    tapaModel ->
+            tapaModels.map { tapaModel ->
                 save(tapaModel)
             }
             Result.success(true)
-        }catch (failure: Exception){
+        } catch (failure: Exception) {
             Result.failure(Failure.XmlError)
         }
     }
@@ -48,47 +47,46 @@ class TapaXmlLocalSource(
                 tapaList.add(it.value as TapaModel)
             }
             Result.success(tapaList)
-        }catch (failure: Exception){
+        } catch (failure: Exception) {
             Result.failure(Failure.XmlError)
         }
     }
 
     override fun getTapa(tapaId: String): Result<TapaModel> {
 
-        return getTapas().mapCatching { it.first{ item -> item.id == tapaId } }
+        val tapa = sharPref.getString(tapaId, null)
+
+        return if (tapa != null) {
+            Result.success(serializer.fromJson(tapa, TapaModel::class.java))
+        } else {
+            Result.failure(Failure.XmlError)
+        }
+
+        //return getTapas().mapCatching { it.first { item -> item.id == tapaId } }
 
     }
 
     override fun updateTapa(tapaModel: TapaModel): Result<Boolean> {
-        return try{
-            getTapas().mapCatching {
-                val tapaList = it.toMutableList()
-                val indexTapa = tapaList.indexOfFirst { item -> item.id == tapaModel.id }
-                if (indexTapa >= 0) {
-                    tapaList[indexTapa] = tapaModel
-                } else {
-                    tapaList.add(tapaModel)
-                }
-                save(tapaList)
-                true
+
+        return try {
+            if (sharPref.contains(tapaModel.id)) {
+                removeTapa(tapaModel.id)
             }
-        }catch (failure: Exception){
+            save(tapaModel)
+        } catch (failure: Exception) {
             Result.failure(Failure.XmlError)
         }
     }
 
     override fun removeTapa(tapaId: String): Result<Boolean> {
         return try {
-            getTapas().mapCatching {
-                val tapaList = it.toMutableList()
-                val indexTapa = tapaList.indexOfFirst { item -> item.id == tapaId }
-                if (indexTapa >= 0) {
-                    tapaList.removeAt(indexTapa)
-                }
-                save(tapaList)
-                true
+            if (sharPref.contains(tapaId)) {
+                sharPref.edit()
+                    .remove(tapaId)
+                    .apply()
             }
-        }catch (failure: Exception){
+            Result.success(true)
+        } catch (failure: Exception) {
             Result.failure(Failure.XmlError)
         }
     }
@@ -102,7 +100,7 @@ class TapaXmlLocalSource(
             }
             edit.apply()
             Result.success(true)
-        }catch (failure: Exception){
+        } catch (failure: Exception) {
             Result.failure(Failure.XmlError)
         }
 

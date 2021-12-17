@@ -1,12 +1,10 @@
 package com.detarco.add_playground.ut03.ex06.data.local.db.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Transaction
+import androidx.room.*
 import com.detarco.add_playground.ut03.ex06.data.local.db.entities.BarEntity
 import com.detarco.add_playground.ut03.ex06.data.local.db.entities.TapaAndBar
 import com.detarco.add_playground.ut03.ex06.data.local.db.entities.TapaEntity
+import com.detarco.add_playground.ut03.ex06.domain.TapaModel
 
 @Dao
 interface TapaDao {
@@ -18,19 +16,25 @@ interface TapaDao {
 
     @Transaction
     @Query("SELECT * FROM tapas WHERE id= :tapaId LIMIT 1")
-    fun findTapaByID(tapaId:String): TapaAndBar
+    fun findTapaByID(tapaId: String): TapaAndBar
 
     @Insert
-    fun saveTapa(tapaEntity: TapaEntity,
-                 barEntity: BarEntity)
+    fun saveTapa(
+        tapaEntity: TapaEntity,
+        barEntity: BarEntity
+    )
 
+    @Update
+    fun updateTapa(vararg tapaModel: TapaModel)
 
+    @Delete
+    fun deleteTapa(vararg tapaModel: TapaModel)
 
     /**
     @Insert
     fun saveTapas(
-        tapaEntity: TapaEntity,
-        barEntity: BarEntity
-        )
-    */
+    tapaEntity: TapaEntity,
+    barEntity: BarEntity
+    )
+     */
 }

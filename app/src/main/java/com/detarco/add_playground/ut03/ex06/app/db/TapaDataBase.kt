@@ -18,11 +18,11 @@ import com.detarco.add_playground.ut03.ex06.data.local.db.entities.TapaEntity
 )
 abstract class Ut03Ex06Database : RoomDatabase() {
 
-    abstract fun tapaDao():TapaDao
-    abstract fun barDao():BarDao
-    abstract fun competitionDao():CompetitionDao
+    abstract fun tapaDao(): TapaDao
+    abstract fun barDao(): BarDao
+    abstract fun competitionDao(): CompetitionDao
 
-    companion object{
+    companion object {
         @Volatile
         private var instance: Ut03Ex06Database? = null
         fun getInstance(applicationContext: Context): Ut03Ex06Database {

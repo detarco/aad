@@ -8,7 +8,7 @@ import com.detarco.add_playground.ut03.ex06.domain.TapaRepository
 class TapaDataRepository(
     private val remoteDataSource: RemoteDataSource,
     private val localDataSource: TapaLocalSource
-    ) : TapaRepository {
+) : TapaRepository {
 
     /**
      * Obtiene un listado de tapas.
@@ -17,16 +17,15 @@ class TapaDataRepository(
      */
 
     override fun fetchTapas(): Result<List<TapaModel>> {
-
-        localDataSource.getTapas().fold({
-            return localDataSource.getTapas()
-        },
-            {
+        val resultTapas = localDataSource.getTapas()
+        return if (resultTapas.isFailure) {
             remoteDataSource.getTapas().mapCatching {
                 localDataSource.save(it)
+                it
             }
-                return localDataSource.getTapas()
-        })
+        } else {
+            resultTapas
+        }
 
     }
 
@@ -37,15 +36,13 @@ class TapaDataRepository(
      */
     override fun fetchTapa(tapaId: String): Result<TapaModel> {
 
-        localDataSource.getTapa(tapaId).fold({
-            return localDataSource.getTapa(tapaId)
-                     },{
-                remoteDataSource.getTapa(tapaId).mapCatching {
-                    localDataSource.save(it)
-                }
-                return localDataSource.getTapa(tapaId)
-            })
-
+        val tapa = localDataSource.getTapa(tapaId).getOrElse {
+            return remoteDataSource.getTapa(tapaId).mapCatching {
+                localDataSource.save(it)
+                it
+            }
+        }
+        return Result.success(tapa)
     }
 
 }
