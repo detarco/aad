@@ -28,6 +28,10 @@ class TapaXmlLocalSource(
         }
     }
 
+    /**
+     * Creo que falta esto
+     */
+
     override fun save(tapaModels: List<TapaModel>): Result<Boolean> {
         return try {
             clearXml()
