@@ -13,16 +13,16 @@ import java.io.File
 class TapaFileLocalSource(
     val context: Context,
     val serializer: GsonSerializer
-    ): TapaLocalSource {
+) : TapaLocalSource {
 
-    private fun getFile(fileName: String): Result<File>{
-        return try{
+    private fun getFile(fileName: String): Result<File> {
+        return try {
             val file = File(context.filesDir, fileName)
             if (!file.exists()) {
                 file.createNewFile()
             }
             Result.success(file)
-        }catch (failure: Exception){
+        } catch (failure: Exception) {
             Result.failure(Failure.FileError)
         }
     }
@@ -32,21 +32,19 @@ class TapaFileLocalSource(
             getFile(AAD_TAPA_FILENAME).mapCatching {
                 it.appendText(
                     serializer.toJson(
-                    tapaModel, TapaModel::class.java
+                        tapaModel, TapaModel::class.java
                     ) + System.lineSeparator()
                 )
             }
             Result.success(true)
-        }catch (failure: Exception){
+        } catch (failure: Exception) {
             Result.failure(Failure.FileError)
         }
     }
 
     override fun save(tapaModels: List<TapaModel>): Result<Boolean> {
         return try {
-            clearFile()
-            tapaModels.map {
-                tapaModel ->
+            tapaModels.map { tapaModel ->
                 save(tapaModel)
             }
             Result.success(true)
@@ -72,15 +70,15 @@ class TapaFileLocalSource(
     }
 
     override fun getTapa(tapaId: String): Result<TapaModel> {
-        return try{
-            getTapas().mapCatching { it.first{ item -> item.id == tapaId } }
-        }catch (failure: Exception){
+        return try {
+            getTapas().mapCatching { it.first { item -> item.id == tapaId } }
+        } catch (failure: Exception) {
             Result.failure(Failure.FileError)
         }
     }
 
     override fun updateTapa(tapaModel: TapaModel): Result<Boolean> {
-        return try{
+        return try {
             getTapas().mapCatching {
                 val tapaList = it.toMutableList()
                 val indexTapa = tapaList.indexOfFirst { item -> item.id == tapaModel.id }
@@ -92,7 +90,7 @@ class TapaFileLocalSource(
                 save(tapaList)
                 true
             }
-        }catch (failure: Exception){
+        } catch (failure: Exception) {
             Result.failure(Failure.FileError)
         }
     }
@@ -108,7 +106,7 @@ class TapaFileLocalSource(
                 save(tapaList)
                 true
             }
-        }catch (failure: Exception){
+        } catch (failure: Exception) {
             Result.failure(Failure.FileError)
         }
     }
