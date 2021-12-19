@@ -5,14 +5,12 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.detarco.add_playground.ut03.ex06.data.local.db.dao.BarDao
-import com.detarco.add_playground.ut03.ex06.data.local.db.dao.CompetitionDao
 import com.detarco.add_playground.ut03.ex06.data.local.db.dao.TapaDao
 import com.detarco.add_playground.ut03.ex06.data.local.db.entities.BarEntity
-import com.detarco.add_playground.ut03.ex06.data.local.db.entities.CompetitionEntity
 import com.detarco.add_playground.ut03.ex06.data.local.db.entities.TapaEntity
 
 @Database(
-    entities = [TapaEntity::class, BarEntity::class, CompetitionEntity::class],
+    entities = [TapaEntity::class, BarEntity::class],
     version = 1,
     exportSchema = false
 )
@@ -20,7 +18,6 @@ abstract class Ut03Ex06Database : RoomDatabase() {
 
     abstract fun tapaDao(): TapaDao
     abstract fun barDao(): BarDao
-    abstract fun competitionDao(): CompetitionDao
 
     companion object {
         @Volatile

@@ -25,10 +25,10 @@ interface TapaDao {
     )
 
     @Update
-    fun updateTapa(vararg tapaModel: TapaModel)
+    fun updateTapa(vararg tapaEntity: TapaEntity)
 
     @Delete
-    fun deleteTapa(vararg tapaModel: TapaModel)
+    fun deleteTapa(vararg tapaEntity: TapaEntity)
 
     /**
     @Insert

@@ -83,7 +83,13 @@ class TapaDBLocalSource(
     override fun updateTapa(tapaModel: TapaModel): Result<Boolean> {
         return try {
 
-            val updateTapa = db.tapaDao().updateTapa(tapaModel)
+            val updateTapa = db.tapaDao()
+                .findAllTapas()
+                .first { item ->
+                    item.tapaEntity.toModel(item.barEntity) == tapaModel
+                }
+            db.tapaDao()
+                .updateTapa(updateTapa.tapaEntity)
             Log.d(TAG, "$updateTapa")
             Result.success(true)
 
@@ -100,7 +106,8 @@ class TapaDBLocalSource(
                 .first { item ->
                     item.tapaEntity.id == tapaId
                 }
-            db.tapaDao().deleteTapa(theTapa.tapaEntity.toModel(theTapa.barEntity))
+
+            db.tapaDao().deleteTapa(theTapa.tapaEntity)
             Result.success(true)
 
         } catch (failure: Exception) {
