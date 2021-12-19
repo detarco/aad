@@ -1,8 +1,8 @@
 package com.detarco.add_playground.ut03.ex06.presentation
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import com.detarco.add_playground.R
 
 class Ut03Ex06Activity : AppCompatActivity() {

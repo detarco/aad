@@ -28,15 +28,10 @@ class TapaXmlLocalSource(
         }
     }
 
-    /**
-     * Creo que falta esto
-     */
-
     override fun save(tapaModels: List<TapaModel>): Result<Boolean> {
         return try {
-            clearXml()
-            tapaModels.map { tapaModel ->
-                save(tapaModel)
+            sharPref.all.map {
+                save(it.value as TapaModel)
             }
             Result.success(true)
         } catch (failure: Exception) {
