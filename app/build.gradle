@@ -49,6 +49,10 @@ dependencies {
     implementation('androidx.recyclerview:recyclerview-selection:1.1.0')
     implementation 'com.squareup.picasso:picasso:2.5.2'
 
+    //Hilt DI
+    implementation "com.google.dagger:hilt-android:2.38.1"
+    kapt "com.google.dagger:hilt-compiler:2.38.1"
+
     //Room library
     def room_version = "2.3.0"
     implementation "androidx.room:room-runtime:$room_version"
