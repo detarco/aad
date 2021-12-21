@@ -44,9 +44,15 @@
         <activity
             android:name=".ut03.ex03.presentation.Ut03Ex03Activity"
             android:exported="true">
+
         </activity>
         <activity
             android:name=".ut01.ex02.Ut01Ex02"
+            android:exported="true">
+        </activity>
+
+        <activity
+            android:name=".ut03.ex06.presentation.Ut03Ex06Activity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
